@@ -23,10 +23,10 @@ defmodule Discourse.MixProject do
 	defp deps do
 	[
 		{:poison, "~> 3.0"},
-		{:cowboy, github: "ninenines/cowboy", tag: "2.0.0"},
 		{:postgrex, "~>0.13.3"},
 		{:uuid, "~> 1.1"},
-		{:ace, "~> 0.15.10"}
+		{:ace, "~> 0.15.10"},
+		{:swoosh, "~> 0.13"}
 		# {:dep_from_hexpm, "~> 0.3.0"},
 		# {:dep_from_git, git: "https://github.com/elixir-lang/my_dep.git", tag: "0.1.0"},
 	]
