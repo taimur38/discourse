@@ -13,7 +13,6 @@ defmodule Discourse.Application do
 			{ Postgrex, name: Discourse.DB, hostname: "localhost", username: "postgres", password: "postgres", database: "postgres" }
 		# Starts a worker by calling: Discourse.Worker.start_link(arg)
 		# {Discourse.Worker, arg},
-		# {Registry, keys: :unique, name: Discourse.TokenRegistry},
 		]
 
 		# See https://hexdocs.pm/elixir/Supervisor.html
