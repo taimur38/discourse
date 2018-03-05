@@ -29,3 +29,12 @@ create table TimelineEntries (
 );
 
 CREATE INDEX ON TimelineEntries(timeline);
+
+CREATE TABLE auth_tokens (
+	uid int references users(id) not null,
+	username text not null references users(username),
+	token char(12),
+	expires timestamp
+);
+create index on auth_tokens(token);
+create index on auth_tokens(username);

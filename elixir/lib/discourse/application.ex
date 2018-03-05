@@ -9,7 +9,7 @@ defmodule Discourse.Application do
 		import Supervisor.Spec, warn: false
 		# List all child processes to be supervised
 		children = [
-			worker(Discourse.ServerB, [%{}]),
+			worker(Discourse.Server, [%{}]),
 			{ Postgrex, name: Discourse.DB, hostname: "localhost", username: "postgres", password: "postgres", database: "postgres" }
 		# Starts a worker by calling: Discourse.Worker.start_link(arg)
 		# {Discourse.Worker, arg},
