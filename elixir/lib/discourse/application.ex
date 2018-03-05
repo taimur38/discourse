@@ -16,7 +16,6 @@ defmodule Discourse.Application do
 		# {Registry, keys: :unique, name: Discourse.TokenRegistry},
 		]
 
-		:ets.new(:token_cache, [:named_table, :public])
 		# See https://hexdocs.pm/elixir/Supervisor.html
 		# for other strategies and supported options
 		opts = [strategy: :one_for_one, name: Discourse.Supervisor]
