@@ -36,7 +36,7 @@ defmodule Discourse.User do
 			Discourse.DB, 
 			"INSERT INTO auth_tokens (uid, username, token, expires) VALUES ($1, $2, $3, now() + interval '90 days')",
 			[uid, username, validator]) do
-				{:ok, resp} -> {:ok, ""}
+				{:ok, _} -> {:ok}
 				{:error, err} -> {:error, %{ code: err.postgres.code, message: err.postgres.detail }}
 		end
 	end

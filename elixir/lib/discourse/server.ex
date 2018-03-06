@@ -115,6 +115,11 @@ defmodule Discourse.Server do
 		end
 	end
 
+	def handle_request(%{} = req, _state) do
+		IO.inspect req
+		response(404)
+	end
+
 	defp success(payload) do
 		response(:ok)
 		|> set_header("content-type", "application/json")
@@ -143,10 +148,5 @@ defmodule Discourse.Server do
 				message: message,
 				payload: %{}
 			}, keys: :atoms!))
-	end
-
-	def handle_request(%{} = req, _state) do
-		IO.inspect req
-		response(404)
 	end
 end
