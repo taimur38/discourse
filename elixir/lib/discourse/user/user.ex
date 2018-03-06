@@ -20,8 +20,8 @@ defmodule Discourse.User do
 		IO.puts "finding..."
 		validator = token_hash(token)
 		case Postgrex.query(Discourse.DB, "SELECT uid, username, extract(epoch from expires) FROM auth_tokens WHERE token=$1 AND username=$2", [validator, username]) do
+			{:ok, %Postgrex.Result{num_rows: 0}} -> {:error, %{code: :invalid, message: "invalid auth token"}}
 			{:ok, resp} -> 
-				IO.inspect resp.rows
 				[r|_] = resp.rows
 				{:ok, r}
 			{:error, err} -> {:error, %{ code: err.postgres.code, message: err.postgres.detail }}

@@ -3,17 +3,19 @@ defmodule Discourse.Timeline.Entry do
 	Hosts functions related to Timeline Entry items
 	"""
 	
-	# creates a timeline entry, returns the generated id
-	def create({ timeline_id, timestamp, body, sources, imgurl }) do
+	@doc """
+	takes `{timeline_id, timestamp, body, sources, imgurl, uid}` returns generated id
+
+	returns `{:ok, id}` or `{:error, %{code: code, message: string}}`
+	""" 
+	def create({ timeline_id, timestamp, body, sources, imgurl, uid }) do
 
 		{:ok, dt} = DateTime.from_unix(timestamp)
 
-		ts = %Postgrex.Timestamp{year: dt.year, month: dt.month, day: dt.day, hour: dt.hour, min: dt.minute, sec: dt.second}
-
 		case Postgrex.query(
 			Discourse.DB, 
-			"INSERT INTO TimelineEntries (timeline, timestamp, body, sources, imgurl) VALUES ($1, $2, $3, $4, $5) RETURNING id",
-			[timeline_id, ts, body, sources, imgurl]) do
+			"INSERT INTO TimelineEntries (timeline, timestamp, body, sources, imgurl, author) VALUES ($1, $2, $3, $4, $5, $6) RETURNING id",
+			[timeline_id, dt, body, sources, imgurl, uid]) do
 				{:ok, resp} -> 
 					[[id]] = resp.rows
 					{:ok, id}
@@ -22,7 +24,7 @@ defmodule Discourse.Timeline.Entry do
 	end
 
 	# updates timeline entry, returns postgres response
-	def update({id, timeline_id, timestamp, body, sources, imgurl}) do
+	def update({id, timeline_id, timestamp, body, sources, imgurl, uid}) do
 
 		{:ok, dt} = DateTime.from_unix(timestamp)
 
@@ -30,8 +32,8 @@ defmodule Discourse.Timeline.Entry do
 
 		case Postgrex.query(
 			Discourse.DB, 
-			"UPDATE TimelineEntries SET (timeline, timestamp, body, sources, imgurl) VALUES ($1, $2, $3, $4, $5) WHERE id=$6",
-			[timeline_id, ts, body, sources, imgurl, id]) do
+			"UPDATE TimelineEntries SET (timeline, timestamp, body, sources, imgurl) VALUES ($1, $2, $3, $4, $5) WHERE id=$6 AND author=$7",
+			[timeline_id, ts, body, sources, imgurl, id, uid]) do
 				{:ok, resp} -> {:ok, resp}
 				{:error, err} -> {:error, %{code: err.postgres.code, message: err.postgres.detail}}
 		end
@@ -41,7 +43,16 @@ defmodule Discourse.Timeline.Entry do
 	def from_timeline_id(id) do
 
 		case Postgrex.query(Discourse.DB, "SELECT id, timeline, extract(epoch from timestamp), body, sources, imgurl, upvotes, downvotes FROM TimelineEntries WHERE timeline=$1", [id]) do
-			{:ok, resp} -> {:ok, resp.rows}
+			{:ok, resp} -> {:ok, resp.rows 
+				|> Enum.map(fn([entry_id, timeline, timestamp, body, sources, imgurl, upvotes, downvotes]) -> %{
+					id: entry_id,
+					timeline: timeline,
+					timestamp: timestamp,
+					body: body,
+					sources: sources,
+					imgurl: imgurl,
+					upvotes: upvotes,
+					downvotes: downvotes } end)}
 			{:error, err} -> {:error, %{code: err.postgres.code, message: err.postgres.detail}}
 		end
 
