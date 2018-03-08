@@ -14,10 +14,11 @@ defmodule Discourse.Server do
 
 		IO.puts "handling login"
 
-		IO.inspect Discourse.User.from_token({username, token})
-
 		case Discourse.User.from_token({username, token}) do
-			{:ok, _} -> success(%{})
+			{:ok, [uid, username, _]} -> success(%{
+				id: uid,
+				username: username
+			})
 			{:error, err }-> failed(err)
 			crap -> 
 				IO.inspect crap
@@ -25,31 +26,58 @@ defmodule Discourse.Server do
 		end
 	end
 
+	# login endpoint
+	def handle_request(%{method: :POST, path: ["api", "user", "login"], body: body}, _) do
+
+		case Poison.decode!(body, [keys: :atoms]) do
+			%{email: email} -> 
+				case Discourse.User.from_email(email) do
+					{uid, _, username} -> 
+						token = :crypto.strong_rand_bytes(12) |> Base.url_encode64 |> binary_part(0, 12)
+						Discourse.Email.send({
+							"Log In To Discourse",
+							"<div>
+								Welcome back, #{username}. Your login link is <a href=\"http://localhost:3000/verify?username=#{username}&token=#{token}\">here</a>.
+							</div>"
+						}, email)
+						Discourse.User.save_token({uid, username, token})
+						success(%{})
+					{:error, err} -> failed(err)
+				end
+			_ -> failed("missing email field")
+		end
+	end
+
 	# endpoint for user creation
 	def handle_request(%{method: :POST, path: ["api", "user", "create"], body: body}, _) do
 		payload = Poison.decode!(body, [keys: :atoms])
+		IO.inspect payload
 
 		case payload do
 			%{ email: email, username: username } -> 
 				token = :crypto.strong_rand_bytes(12) |> Base.url_encode64 |> binary_part(0, 12)
+				IO.puts "got token"
 
 				case Discourse.User.create({ username, email }) do
 					{:ok, uid} -> 
+						IO.puts "created user"
 						{:ok, _} = Discourse.User.save_token({uid, username, token})
 
 						Discourse.Email.send({
-							"Hello - sign in to Discourse",
+							"Welcome to Discourse",
 							"<div>
-								Your magic login link is <a href=\"http://localhost:8080/api/user/#{username}/login/#{token}\">here</a>.
+								Welcome to Discourse, #{username}. Your login link is <a href=\"http://localhost:3000/verify?username=#{username}&token=#{token}\">here</a>.
 							</div>"
 						}, email)
 
 						success(%{id: uid})
 
-					{:error, err} -> failed(err)
+					{:error, err} -> 
+						IO.inspect err.code
+						failed(err)
 				end
 
-			_ -> response(:ok) |> set_body(Poison.encode!(%{success: false, message: "body requires email and username"}, keys: :atoms!))
+			_ -> failed("body requires email and username")
 		end
 	end
 
@@ -115,14 +143,24 @@ defmodule Discourse.Server do
 		end
 	end
 
+	def handle_request(%{method: :OPTIONS}, _) do
+		response(204)
+		|> set_header("access-control-allow-origin", '*')
+		|> set_header("access-control-allow-methods", "GET, POST, OPTIONS")
+		|> set_header("access-control-allow-headers", "DNT,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Range")
+	end
+
+
 	def handle_request(%{} = req, _state) do
 		IO.inspect req
 		response(404)
+		|> set_header("access-control-allow-origin", '*')
 	end
 
 	defp success(payload) do
 		response(:ok)
 		|> set_header("content-type", "application/json")
+		|> set_header("access-control-allow-origin", '*')
 		|> set_body(Poison.encode!(%{
 				success: true,
 				message: "",
@@ -133,6 +171,7 @@ defmodule Discourse.Server do
 	defp failed(%{message: message}) do
 		response(:ok)
 		|> set_header("content-type", "application/json")
+		|> set_header("access-control-allow-origin", '*')
 		|> set_body(Poison.encode!(%{
 				success: false,
 				message: message,
@@ -143,6 +182,7 @@ defmodule Discourse.Server do
 	defp failed(message) do
 		response(:ok)
 		|> set_header("content-type", "application/json")
+		|> set_header("access-control-allow-origin", '*')
 		|> set_body(Poison.encode!(%{
 				success: false,
 				message: message,
