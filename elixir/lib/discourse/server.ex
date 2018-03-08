@@ -26,7 +26,7 @@ defmodule Discourse.Server do
 		end
 	end
 
-	# login endpoint
+	# token generation endpoint
 	def handle_request(%{method: :POST, path: ["api", "user", "login"], body: body}, _) do
 
 		case Poison.decode!(body, [keys: :atoms]) do
@@ -81,6 +81,15 @@ defmodule Discourse.Server do
 		end
 	end
 
+	# endpoint for landing page
+	def handle_request(%{method: :GET, path: ["api", "timelines", "recent"]}, _) do
+		case Discourse.Timeline.recent(5) do
+			{:ok, payload} -> success(payload)
+			{:error, err} -> failed(err)
+		end
+	end
+
+	# endpoint to get timeline info
 	def handle_request(%{method: :GET, path: ["api", "timeline", id]}, _) do
 		{parsed_id, _} = Integer.parse(id)
 		case Discourse.Timeline.from_id(parsed_id) do

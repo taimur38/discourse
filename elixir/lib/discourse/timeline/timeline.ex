@@ -51,6 +51,30 @@ defmodule Discourse.Timeline do
 		end
 	end
 
+	@doc """
+	gets all recent timelines
+	"""
+	def recent(limit) do
+		case Postgrex.query(
+			Discourse.DB,
+			"SELECT a.id, a.title, extract(epoch from a.created_at), a.author, b.username
+			FROM timelines a JOIN users b ON a.author=b.id
+			ORDER BY a.created_at DESC
+			LIMIT $1", [limit]) do
+
+				{:ok, resp} -> {:ok, resp.rows 
+					|> Enum.map(fn([id, title, created_at, uid, username]) -> %{
+							id: id,
+							title: title,
+							created_at: created_at,
+							author: %{
+								id: uid,
+								username: username
+							}
+						} end)}
+				{:error, err} -> {:error, %{code: err.postgres.code, message: err.postgres.detail }}
+		end
+	end
 
 	@doc """
 	finds all timelines for a username
