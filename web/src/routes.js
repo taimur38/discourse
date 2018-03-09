@@ -16,7 +16,7 @@ export default (props) => (
 			<Route exact path="/" component={Home} />
 			<Route path="/verify" component={Verify} />
 			<Route path="/timeline/:id" component={Timeline} />
-			<Route path="/user/:id" component={User} />
+			<Route path="/user/:username" component={User} />
 
 
 			<Route path="/signup" component={Signup} />

@@ -1,6 +1,10 @@
 const baseUrl = "http://localhost:8080/api"
 
-export function post(path, payload) {
+export function post(path, payload, authed = false) {
+
+	if(authed) {
+		payload.token = current_user().token;
+	}
 
 	return fetch(`${baseUrl}${path}`, {
 		body: JSON.stringify(payload),
@@ -60,4 +64,8 @@ export function get(path) {
 
 export function persist(key, value) {
 	localStorage.setItem(key, JSON.stringify(value));
+}
+
+export function current_user() {
+	return localStorage.getItem("user");
 }

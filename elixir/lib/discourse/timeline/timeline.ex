@@ -83,10 +83,19 @@ defmodule Discourse.Timeline do
 		
 		case Postgrex.query(
 			Discourse.DB,
-			"SELECT users.id, timelines.id, timelines.title, timelines.author 
-			FROM users JOIN tmielines on users.id = timelines.author 
+			"SELECT users.id, timelines.id, timelines.title, extract(epoch from timelines.created_at)
+			FROM users JOIN timelines on users.id = timelines.author 
 			WHERE users.username=$1", [username]) do
-				{:ok, resp} -> {:ok, resp.rows}
+				{:ok, resp} -> {:ok, resp.rows
+					|> Enum.map(fn([uid, timeline, title, created]) -> %{
+							author: %{
+								id: uid,
+								username: username
+							},
+							id: timeline,
+							title: title,
+							created_at: created
+						} end)}
 				{:error, err} -> {:error, %{code: err.postgres.code, message: err.postgres.detail}}
 			end
 	end

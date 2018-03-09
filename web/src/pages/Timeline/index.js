@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import * as lib from '../../lib'
+import Loading from '../../components/Loading'
 import TimelineEntry from '../../components/TimelineEntry'
 
 export default class Timeline extends Component {
@@ -22,9 +23,7 @@ export default class Timeline extends Component {
 	}
 	render() {
 
-		if(this.state.loading) {
-			return <div>Loading....</div>
-		}
+		if(this.state.loading) { return <Loading /> }
 
 		return <div className="timeline">
 			<div className="heading">

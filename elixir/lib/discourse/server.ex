@@ -89,6 +89,17 @@ defmodule Discourse.Server do
 		end
 	end
 
+	# endpoint for user page
+	def handle_request(%{method: :GET, path: ["api", "user", username]}, _) do
+		# get all the info and return id, username, [timeline stubs]
+
+		case Discourse.Timeline.from_username(username) do
+			{:ok, timelines} -> success(timelines)
+			{:error, err} -> failed(err)
+		end
+
+	end
+
 	# endpoint to get timeline info
 	def handle_request(%{method: :GET, path: ["api", "timeline", id]}, _) do
 		{parsed_id, _} = Integer.parse(id)

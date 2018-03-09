@@ -17,8 +17,7 @@ class Verification extends Component {
 
 		lib.get(`/user/${username}/login/${token}`)
 			.then(res => {
-				console.log(res)
-				lib.persist("user", res);
+				lib.persist("user", {...res, token});
 				//redirect to the home page
 				console.log('redirecting')
 				this.props.history.push('/')
