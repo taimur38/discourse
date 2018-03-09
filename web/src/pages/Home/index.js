@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import * as lib from '../../lib'
-import { Link } from 'react-router-dom'
+import TimelineStub from '../../components/TimelineStub'
 
-class App extends Component {
+export default class HomePage extends Component {
 
 	constructor(props) {
 		super(props);
@@ -18,7 +18,7 @@ class App extends Component {
 		console.log(user)
 
 		lib.get("/timelines/recent")
-			.then(timelines => this.setState({timelines}))
+			.then(timelines => this.setState({ timelines }))
 			.catch(err => console.error(err))
 	}
 
@@ -26,13 +26,8 @@ class App extends Component {
 		return (
 			<div className="home">
 			{
-				this.state.timelines.map(tl => {
-					console.log(tl)
-					return <div key={tl.id}>{tl.title} by {tl.author.username}</div> // timeline 
-				})
+				this.state.timelines.map(tl => <TimelineStub key={tl.id} {...tl} />)
 			}</div>
 		);
 	}
 }
-
-export default App;
