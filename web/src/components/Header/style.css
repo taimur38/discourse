@@ -13,6 +13,8 @@
 	width: 80%;
 	font-size: 2rem;
 	border-right: 2px solid gray;
+	text-decoration: none;
+	color: black;
 }
 
 .header .right {

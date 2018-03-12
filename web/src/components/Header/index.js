@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 import { UserLink } from '../../lib'
 
 import Modal from '../Modal'
@@ -36,8 +37,9 @@ export default class Header extends React.Component {
 		const user = this.props.user;
 		const loggedin = user !== null;
 
+			//<div className="logo">Discourse</div>
 		return <div className="header">
-			<div className="logo">Discourse</div>
+			<Link className="logo" to="/">Discourse</Link>
 			<div className="right">
 				{ loggedin ? 
 					<UserLink username={user.username}/> :

@@ -10,6 +10,8 @@
 .timeline .heading .title {
 	font-size: 2.2rem;
 }
-.timeline .heading .author {
+.timeline .heading .user {
 	margin-top: 5px;
+	text-decoration: none;
+	color: tomato;
 }
