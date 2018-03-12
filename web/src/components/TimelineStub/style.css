@@ -1,0 +1,30 @@
+
+.timeline-stub {
+	display: flex;
+	flex-direction: row;
+	width: 75%;
+	padding: 20px;
+	background-color: white;
+	border-radius: 6px;
+}
+
+.timeline-stub .middle .top {
+	margin-bottom: 5px;
+}
+
+.timeline-stub .middle .top a {
+	color: black;
+	font-weight: bold;
+	text-decoration: none;
+	cursor: pointer;
+	font-size: 1.3rem;
+}
+
+.timeline-stub .middle .bottom {
+	color: rgb(100, 100, 100);
+}
+.timeline-stub .middle .bottom a {
+	color: tomato;
+	text-decoration: none;
+	cursor: pointer;
+}

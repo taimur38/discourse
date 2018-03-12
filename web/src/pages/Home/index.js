@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import * as lib from '../../lib'
+import Header from '../../components/Header'
 import TimelineStub from '../../components/TimelineStub'
+
+import './style.css'
 
 export default class HomePage extends Component {
 
@@ -14,9 +17,6 @@ export default class HomePage extends Component {
 
 	componentDidMount() {
 
-		const user = localStorage.getItem("user");
-		console.log(user)
-
 		lib.get("/timelines/recent")
 			.then(timelines => this.setState({ timelines }))
 			.catch(err => console.error(err))
@@ -25,9 +25,13 @@ export default class HomePage extends Component {
 	render() {
 		return (
 			<div className="home">
-			{
-				this.state.timelines.map(tl => <TimelineStub key={tl.id} {...tl} />)
-			}</div>
+				<Header user={lib.current_user()}/>
+				<div className="feed">
+				{
+					this.state.timelines.map(tl => <TimelineStub key={tl.id} {...tl} />)
+				}
+				</div>
+			</div>
 		);
 	}
 }

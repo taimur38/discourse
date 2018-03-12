@@ -1,0 +1,15 @@
+.timeline .heading {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	height: 100px;
+	width: 100%;
+}
+
+.timeline .heading .title {
+	font-size: 2.2rem;
+}
+.timeline .heading .author {
+	margin-top: 5px;
+}

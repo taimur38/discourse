@@ -1,12 +1,50 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { UserLink, TimelineLink } from '../../lib'
+
+import './style.css'
 
 export default ({ author: { username, id: uid }, created_at, id, title}) => {
 	const d = new Date(created_at * 1000);
 
-	return <div key={id} className="TimelineStub">
-		<div className="title"><Link to={`/timeline/${id}`}>{title}</Link></div>
-		<div className="created">{d.toLocaleString()}</div>
-		<div className="author"><Link to={`/user/${username}`}>{username}</Link></div>
+	return <div key={id} className="timeline-stub">
+
+		<div className="left" />
+		<div className="middle">
+			<div className="top">
+				<TimelineLink id={id} title={title} />
+			</div>
+			<div className="bottom">
+				<span>{`submitted ${dateDiff(d)} by `}</span>
+				<UserLink username={username} />
+			</div>
+		</div>
+		<div className="right" />
 	</div>
 }
+
+const dateDiff = (d) => {
+	let diff = parseInt((Date.now() - d)/1000);
+	console.log(diff)
+
+	if(diff < 60) {
+		return `${diff} seconds ago`
+	}
+
+	diff = parseInt(diff/60); 
+	if(diff < 60) {
+		return `${diff} minutes ago`
+	}
+
+	diff = parseInt(diff / 60)
+	if(diff < 24) {
+		return `${diff} hours ago`
+	}
+
+	diff = parseInt(diff / 24)
+	if(diff < 365) {
+		return `${diff} days ago`
+	}
+
+	diff = parseInt(diff / 365)
+	return `${diff} years ago`
+};

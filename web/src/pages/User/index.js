@@ -1,6 +1,8 @@
 import React from 'react'
 import Loading from '../../components/Loading'
 import TimelineStub from '../../components/TimelineStub'
+import Header from '../../components/Header'
+
 import * as lib from '../../lib'
 
 export default class User extends React.Component {
@@ -26,9 +28,10 @@ export default class User extends React.Component {
 		if(this.state.loading) { return <Loading /> }
 
 		return <div className="user">
-		{
-			this.state.timelines.map(tl => TimelineStub(tl))
-		}
+			<Header user={lib.current_user()}/>
+			{
+				this.state.timelines.map(tl => TimelineStub(tl))
+			}
 		</div>
 	}
 }

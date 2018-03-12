@@ -1,0 +1,39 @@
+.header {
+	display: flex;
+	flex-direction: row;
+	width: 100%;
+	height: 4rem;
+	align-items: center;
+	border-bottom: 3px solid gray;
+
+}
+
+.header .logo {
+	display: flex;
+	width: 80%;
+	font-size: 2rem;
+	border-right: 2px solid gray;
+}
+
+.header .right {
+	width: 20%;
+	display: flex;
+	justify-content: center;
+	text-align: center;
+}
+
+.header .right .logged-out>div{
+	cursor: pointer;
+}
+
+.header .right .logged-out>div:hover{
+	color: tomato;
+}
+
+.header .close {
+	color: white;
+	cursor: pointer;
+}
+.header .close:hover {
+	color: tomato;
+}

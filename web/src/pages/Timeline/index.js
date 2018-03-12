@@ -1,7 +1,10 @@
 import React, { Component } from 'react'
-import * as lib from '../../lib'
+import {get, UserLink, current_user} from '../../lib'
 import Loading from '../../components/Loading'
 import TimelineEntry from '../../components/TimelineEntry'
+import Header from '../../components/Header'
+
+import './style.css'
 
 export default class Timeline extends Component {
 
@@ -17,18 +20,20 @@ export default class Timeline extends Component {
 
 		const id = this.props.match.params.id;
 
-		lib.get(`/timeline/${id}`)
+		get(`/timeline/${id}`)
 			.then(timeline => this.setState({ timeline, loading: false }))
 			.catch(alert)
 	}
+
 	render() {
 
 		if(this.state.loading) { return <Loading /> }
 
 		return <div className="timeline">
+			<Header user={current_user()}/>
 			<div className="heading">
 				<div className="title">{this.state.timeline.title}</div>
-				<div className="author">{this.state.timeline.username}</div>
+				<UserLink username={this.state.timeline.username} />
 			</div>
 			<div className="entries">
 			{

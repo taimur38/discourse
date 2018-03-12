@@ -1,0 +1,22 @@
+.entry {
+	display: flex;
+
+	flex-direction: row;
+	justify-content: flex-start;
+	align-items: center;
+
+	height: 120px;
+
+	border: 1px solid gray;
+}
+
+.entry .left img {
+	width: 100px;
+	height: 100px;
+}
+
+.entry .middle {
+	display: flex;
+	flex-direction: column;
+	margin-left: 5px;
+}

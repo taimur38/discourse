@@ -143,13 +143,14 @@ defmodule Discourse.Server do
 		payload = Poison.decode!(post_body, [keys: :atoms])
 
 		case payload do
-			%{body: body, sources: sources, imgurl: imgurl, timeline: timeline, timestamp: ts, token: token, username: username} ->
+			%{title: title, body: body, sources: sources, imgurl: imgurl, timeline: timeline, timestamp: ts, token: token, username: username} ->
 				{:ok, [uid | _]} = Discourse.User.from_token({username, token})
-				case Discourse.Timeline.Entry.create({timeline, ts, body, sources, imgurl, uid}) do
+				case Discourse.Timeline.Entry.create({timeline, ts, title, body, sources, imgurl, uid}) do
 					{:ok, id} -> success(%{
 							id: id,
 							timeline: timeline,
 							timestamp: ts,
+							title: title,
 							body: body,
 							sources: sources,
 							imgurl: imgurl,

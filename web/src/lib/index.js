@@ -1,4 +1,8 @@
-const baseUrl = "http://localhost:8080/api"
+import React from 'react'
+import { Link } from 'react-router-dom'
+
+const baseUrl = "http://192.168.0.27:8080/api"
+//const baseUrl = "http://localhost:8080/api"
 
 export function post(path, payload, authed = false) {
 
@@ -66,6 +70,18 @@ export function persist(key, value) {
 	localStorage.setItem(key, JSON.stringify(value));
 }
 
+export function localeGet(key) {
+	JSON.parse(localStorage.getItem(key))
+}
+
 export function current_user() {
-	return localStorage.getItem("user");
+	return JSON.parse(localStorage.getItem("user"));
+}
+
+export function UserLink({username, ...props}) {
+	return <Link to={`/user/${username}`} className="user">{username}</Link>
+}
+
+export function TimelineLink({id, title, ...props}) {
+	return <Link to={`/timeline/${id}`} className="timeline-link">{title}</Link>
 }

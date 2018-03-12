@@ -1,0 +1,17 @@
+.home .feed {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+
+	margin-top: 5px;
+}
+
+.home {
+	background-color: #f9f9f9;
+	height: 100%;
+	position: fixed;
+	height: 100%;
+	width: 100%;
+	overflow: auto;
+}
