@@ -15,3 +15,8 @@
 	width: 100%;
 	overflow: auto;
 }
+
+a.user {
+	text-decoration: none;
+	color: tomato;
+}

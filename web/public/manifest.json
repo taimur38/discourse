@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "Discourse",
+  "name": "Discourse",
   "icons": [
     {
       "src": "favicon.ico",
@@ -10,6 +10,11 @@
   ],
   "start_url": "./index.html",
   "display": "standalone",
-  "theme_color": "#000000",
-  "background_color": "#ffffff"
+  "theme_color": "#ffffff",
+  "popup_highlight": "#ff6347",
+  "background_color": "#ffffff",
+  "developer": {
+	  "name": "Taimur Shah",
+	  "url": "http://metal.fish"
+  }
 }

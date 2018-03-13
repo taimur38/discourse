@@ -23,28 +23,28 @@ export default ({ author: { username, id: uid }, created_at, id, title}) => {
 }
 
 const dateDiff = (d) => {
-	let diff = parseInt((Date.now() - d)/1000);
+	let diff = parseInt((Date.now() - d)/1000, 10);
 	console.log(diff)
 
 	if(diff < 60) {
 		return `${diff} seconds ago`
 	}
 
-	diff = parseInt(diff/60); 
+	diff = parseInt(diff/60, 10); 
 	if(diff < 60) {
 		return `${diff} minutes ago`
 	}
 
-	diff = parseInt(diff / 60)
+	diff = parseInt(diff / 60, 10)
 	if(diff < 24) {
 		return `${diff} hours ago`
 	}
 
-	diff = parseInt(diff / 24)
+	diff = parseInt(diff / 24, 10)
 	if(diff < 365) {
 		return `${diff} days ago`
 	}
 
-	diff = parseInt(diff / 365)
+	diff = parseInt(diff / 365, 10)
 	return `${diff} years ago`
 };

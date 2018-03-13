@@ -25,6 +25,14 @@ export default class Timeline extends Component {
 			.catch(alert)
 	}
 
+	// at this point, you should render whitespaces
+	// to represent time between events.
+	// you can pick an absolute global time (would be fun toggle)
+	// aka 1px = 1 day
+	// or you can pick based on distance between first and last event
+	// and event density
+	// aka minimum distance between events
+
 	render() {
 
 		if(this.state.loading) { return <Loading /> }
@@ -39,7 +47,11 @@ export default class Timeline extends Component {
 			{
 				this.state.timeline.entries
 					.sort((a, b) => a.timestamp - b.timestamp)
-					.map(e => <TimelineEntry key={e.id} {...e} />)
+					.map(e => <div className="entry-wrapper" key={e.id}>
+							<div className="v-line" />
+							<div className="line" /> 
+							<TimelineEntry key={e.id} {...e} />
+						</div>)
 			}
 			</div>
 		</div>

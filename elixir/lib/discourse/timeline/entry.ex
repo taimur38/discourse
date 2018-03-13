@@ -14,7 +14,7 @@ defmodule Discourse.Timeline.Entry do
 
 		case Postgrex.query(
 			Discourse.DB, 
-			"INSERT INTO TimelineEntries (timeline, timestamp, title, body, sources, imgurl, author) VALUES ($1, $2, $3, $4, $5, $6) RETURNING id",
+			"INSERT INTO TimelineEntries (timeline, timestamp, title, body, sources, imgurl, author) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING id",
 			[timeline_id, dt, title, body, sources, imgurl, uid]) do
 				{:ok, resp} -> 
 					[[id]] = resp.rows

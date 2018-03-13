@@ -6,8 +6,8 @@
 	align-items: center;
 
 	height: 120px;
+	width: 100%;
 
-	border: 1px solid gray;
 }
 
 .entry .left img {
@@ -18,5 +18,9 @@
 .entry .middle {
 	display: flex;
 	flex-direction: column;
-	margin-left: 5px;
+	margin-left: 15px;
+}
+
+.entry .middle .title {
+	font-weight: bold;
 }

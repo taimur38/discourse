@@ -23,8 +23,3 @@
 .timeline-stub .middle .bottom {
 	color: rgb(100, 100, 100);
 }
-.timeline-stub .middle .bottom a {
-	color: tomato;
-	text-decoration: none;
-	cursor: pointer;
-}
