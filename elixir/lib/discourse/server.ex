@@ -131,7 +131,22 @@ defmodule Discourse.Server do
 			%{title: title, username: username, token: token} -> 
 				{:ok, [uid | _]} = Discourse.User.from_token({username, token})
 				case Discourse.Timeline.create({title, uid}) do
-					{:ok, id} -> success(%{id: id, title: title, author: uid})
+					{:ok, id} -> success(%{id: id, title: title, published: false, author: uid})
+					{:error, err} -> failed(err)
+				end
+			_ -> failed("missing required fields")
+		end
+	end
+
+	# endpoint to edit top level timeline
+	def handle_request(%{method: :POST, path: ["api", "timeline", id, "edit"], body: body }, _) do
+		payload = Poison.decode!(body, [keys: :atoms])
+
+		case payload do
+			%{ id: id, title: title, published: published, username: username, token: token } -> 
+				{:ok, [uid | _]} = Discourse.User.from_token({username, token})
+				case Discourse.Timeline.edit({ id, title, published }) do
+					{:ok } -> success(%{id: id, title: title, published: published, author: uid})
 					{:error, err} -> failed(err)
 				end
 			_ -> failed("missing required fields")

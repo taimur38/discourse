@@ -21,6 +21,19 @@ export default class Timeline extends Component {
 		const id = this.props.match.params.id;
 
 		get(`/timeline/${id}`)
+			.then(timeline => {
+				const sorted = timeline.entries.sort((a, b) => a.timestamp - b.timestamp);
+				const gapline = [];
+				gapline.push(sorted[0])
+				for(let i = 1; i < sorted.length; i++) {
+					const diff = sorted[i].timestamp - sorted[i - 1].timestamp;
+					console.log(sorted[i].timestamp, sorted[i-1].timestamp, diff)
+					gapline.push({ gap: true, diff, id: Math.random() });
+					gapline.push(sorted[i]);
+				}
+
+				return {...timeline, gapline }
+			})
 			.then(timeline => this.setState({ timeline, loading: false }))
 			.catch(alert)
 	}
@@ -37,6 +50,8 @@ export default class Timeline extends Component {
 
 		if(this.state.loading) { return <Loading /> }
 
+		// calculate space between entries.
+
 		return <div className="timeline">
 			<Header user={current_user()}/>
 			<div className="heading">
@@ -45,12 +60,12 @@ export default class Timeline extends Component {
 			</div>
 			<div className="entries">
 			{
-				this.state.timeline.entries
-					.sort((a, b) => a.timestamp - b.timestamp)
-					.map(e => <div className="entry-wrapper" key={e.id}>
+				this.state.timeline.gapline
+					.map(e => <div className="entry-wrapper" key={e.id} style={{ height: `${parseInt(e.diff / 60/60, 10)}px` }}>
+							<div className="date">{e.timestamp ? new Date(e.timestamp * 1000).toLocaleDateString() : false}</div>
 							<div className="v-line" />
-							<div className="line" /> 
-							<TimelineEntry key={e.id} {...e} />
+							{ e.gap ? false : <div className="line" />  }
+							{ e.gap ? false: <TimelineEntry {...e} /> }
 						</div>)
 			}
 			</div>

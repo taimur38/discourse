@@ -20,7 +20,16 @@
 	flex-direction: row;
 	align-items: center;
 	height: 120px;
-	width: 80%;
+	width: 90%;
+}
+
+.entry-wrapper .date {
+	font-size: .8rem;
+	text-align: right;
+	width: 85px;
+	min-width: 85px;
+	margin-right: 5px;
+	display: block;
 }
 
 .entry-wrapper .v-line {

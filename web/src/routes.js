@@ -9,12 +9,14 @@ import Home from './pages/Home'
 import Verify from './pages/Verification'
 import User from './pages/User'
 import Timeline from './pages/Timeline'
+import EditTimeline from './pages/EditTimeline'
 
 export default (props) => (
 	<BrowserRouter>
 		<Switch>
 			<Route exact path="/" component={Home} />
 			<Route path="/verify" component={Verify} />
+			<Route path="/timeline/:id/edit" component={EditTimeline} />
 			<Route path="/timeline/:id" component={Timeline} />
 			<Route path="/user/:username" component={User} />
 
