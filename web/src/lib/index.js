@@ -78,6 +78,10 @@ export function localeGet(key) {
 	JSON.parse(localStorage.getItem(key))
 }
 
+export function is_owner(uid) {
+	return current_user().id == uid;
+}
+
 export function current_user() {
 	return JSON.parse(localStorage.getItem("user"));
 }

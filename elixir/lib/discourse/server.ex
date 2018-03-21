@@ -153,29 +153,47 @@ defmodule Discourse.Server do
 		end
 	end
 
-	#endpoint for creating a timeline entry
-	def handle_request(%{method: :POST, path: ["api", "timeline", "entry", "create"], body: post_body}, _) do
+	# endpoint for creating or updating a timeline entry
+	def handle_request(%{method: :POST, path: ["api", "timeline", "entry"], body: post_body}, _) do
 		payload = Poison.decode!(post_body, [keys: :atoms])
 
 		case payload do
+
+			%{id: id, title: title, body: body, sources: sources, imgurl: imgurl, timeline: timeline, timestamp: ts, token: token, username: username} ->
+				{:ok, [uid | _]} = Discourse.User.from_token({username, token})
+				case Discourse.Timeline.Entry.update({id, timeline, ts, title, body, sources, imgurl, uid}) do
+					{:ok, entry} -> success(entry)
+					{:error, err} -> failed(err)
+				end
+
 			%{title: title, body: body, sources: sources, imgurl: imgurl, timeline: timeline, timestamp: ts, token: token, username: username} ->
 				{:ok, [uid | _]} = Discourse.User.from_token({username, token})
 				case Discourse.Timeline.Entry.create({timeline, ts, title, body, sources, imgurl, uid}) do
-					{:ok, id} -> success(%{
-							id: id,
-							timeline: timeline,
-							timestamp: ts,
-							title: title,
-							body: body,
-							sources: sources,
-							imgurl: imgurl,
-							author: uid})
+					{:ok, entry} -> success(entry)
 					{:error, err} -> failed(err)
 				end
+
 			other ->
 				IO.inspect other
 				failed("missing fields")
 
+		end
+	end
+
+	def handle_request(%{method: :POST, path: ["api", "timeline", "entry", id, "delete"], body: post_body }, _) do
+		payload = Poison.decode!(post_body, [keys: :atoms])
+
+		{parsed_id, _} = Integer.parse(id)
+		case payload do
+			%{token: token, username: username} -> 
+				{:ok, [uid | _]} = Discourse.User.from_token({username, token})
+				case Discourse.Timeline.Entry.delete({parsed_id, uid}) do
+					{:ok} -> success(%{})
+					{:error, err} -> failed(err)
+				end
+			other -> 
+				IO.inspect other
+				failed("missing fields")
 		end
 	end
 

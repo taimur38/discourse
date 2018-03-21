@@ -4,41 +4,42 @@
 	margin: auto;
 }
 
-.create-timeline #timeline_title {
-	font-size: 1.2rem;
+.create-timeline .topper {
+	display: flex;
+	width: 100%;
+	justify-content: space-between;
+	align-items: flex-end;
 	margin: 20px 0;
+	font-size: 1.1rem;
+
+}
+.create-timeline #timeline_title {
+	font-size: 1.1rem;
 	transition: all .3s ease-in-out;
 }
 
 .create-timeline .explainer {
-	padding: 20px;
+	padding: 20px 0;
 }
 
-.create.entry {
-	padding: 10px 20px;
-	height: 400px;
-
-	border: 1px solid slategrey;
-}
-
-.create.entry .middle {
-	width: 75%;
-}
-
-.create.entry textarea {
-	height: 200px;
-	margin: 10px;
-}
-
-.create.entry .modal>div {
-	width: 75%;
+.create-timeline .entry-wrap {
 	display: flex;
+	justify-content: center;
 }
 
-.create.entry .modal input {
-	width: 100%;
-}
+	.create-timeline .entry-wrap .owner-wrap {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+	}
 
-.react-datepicker__time-list {
-	padding-left: 0;
-}
+	.create-timeline .entry-wrap .owner-wrap>div {
+		cursor: pointer;
+		padding: 5px;
+		text-align: center;
+		text-decoration: underline;
+	}
+
+	.create-timeline .entry-wrap .owner-wrap>div:hover {
+		color: tomato;
+	}

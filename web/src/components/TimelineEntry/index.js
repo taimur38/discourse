@@ -12,7 +12,7 @@ export default class TimelineEntry extends React.Component {
 
 	render() {
 		// eslint-disable-next-line
-		const {id, title, body, downvotes, imgurl, sources, timeline, timestamp, upvotes } = this.props;
+		const {id, title, body, downvotes, imgurl, sources, timeline, timestamp, upvotes, userid} = this.props;
 
 		const dt = new Date(timestamp * 1000);
 
@@ -35,3 +35,4 @@ export default class TimelineEntry extends React.Component {
 const Source = ({url}) => {
 	return <a className="source" href={url}>{url}</a>
 }
+
