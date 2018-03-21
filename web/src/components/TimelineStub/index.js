@@ -1,5 +1,6 @@
 import React from 'react'
-import { UserLink, TimelineLink } from '../../lib'
+import { Link } from 'react-router-dom'
+import { UserLink, TimelineLink, current_user } from '../../lib'
 
 import './style.css'
 
@@ -18,7 +19,9 @@ export default ({ author: { username, id: uid }, created_at, id, title}) => {
 				<UserLink username={username} />
 			</div>
 		</div>
-		<div className="right" />
+		<div className="right">
+			{ current_user().id == uid ? <Link className="edit" to={`/timeline/${id}/edit`}>Edit</Link> : false }
+		</div>
 	</div>
 }
 

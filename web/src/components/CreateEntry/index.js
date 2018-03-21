@@ -20,8 +20,18 @@ export default class CreateEntry extends React.Component {
 		super(props);
 		this.state = {
 			modal: false,
-			entry: defaultState
+			entry: props.initState || defaultState
 		};
+	}
+
+	componentWillReceiveProps(newProps, oldProps) {
+
+		// i know this is improper
+		if(newProps.initState != oldProps.initState) {
+			this.setState({
+				entry: newProps.initState
+			})
+		}
 	}
 
 	handleChange = (key, e) => {
@@ -74,6 +84,8 @@ export default class CreateEntry extends React.Component {
 					showTimeSelect 
 					showMonthDropdown
 					showYearDropdown
+					scrollableYearDropdown
+					scrollableMonthYearDropdown
 					filterDate={(d) => d < moment()}
 					onChange={this.dateChange} />
 			</div>

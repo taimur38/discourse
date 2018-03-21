@@ -38,3 +38,7 @@
 .create.entry .modal input {
 	width: 100%;
 }
+
+.react-datepicker__time-list {
+	padding-left: 0;
+}

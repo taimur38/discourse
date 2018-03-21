@@ -8,6 +8,9 @@
 	border-radius: 6px;
 }
 
+.timeline-stub .middle {
+	width: 80%;
+}
 .timeline-stub .middle .top {
 	margin-bottom: 5px;
 }
@@ -23,3 +26,15 @@
 .timeline-stub .middle .bottom {
 	color: rgb(100, 100, 100);
 }
+
+.timeline-stub .right {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+}
+
+	.timeline-stub .right .edit {
+		padding: 4px 8px;
+		color: slategray;
+		cursor: pointer;
+	}

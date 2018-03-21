@@ -26,6 +26,8 @@ export default class TimelineEntry extends React.Component {
 				<div className="ts">{dt.toLocaleDateString()}</div>
 				<div className="sources">{sources.map(s => <Source url={s} key={s} />)}</div>
 			</div>
+			<div className="right">
+			</div>
 		</div>
 	}
 }
