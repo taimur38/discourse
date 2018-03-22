@@ -9,6 +9,9 @@ import './style.css'
 // assume sorted
 const extractGaps = (entries) => entries.slice(1).map((v, i) => v.timestamp - entries[i].timestamp)
 
+const avgEventDist = 50; //px
+const outlierMult = 3;
+
 export default class Timeline extends Component {
 
 	constructor(props) {
@@ -33,26 +36,15 @@ export default class Timeline extends Component {
 				// I should detect outliers, remove them and recompute the mean
 				const mean = gaps.reduce((a, b) => a + b)/gaps.length;
 				const median = [...gaps].sort((a, b) => a - b)[gaps.length / 2];
-
-				//console.log(mean, median, mean-median)
-
-				const span = gaps[gaps.length - 1] - gaps[0];
-				// entries.length
+				const span = sorted[sorted.length - 1].timestamp - sorted[0].timestamp;
 				
-				// we should find a pixel length for the mean
-				// and express other lengths as functions of the mean
-				// if something is (3x) more tmeanhan the mean, cap it and indicate.
-
-				const R = 50/mean;
 				const gapline = [sorted[0]];
 
 				for(let i = 1; i < sorted.length; i++) {
-					const px = gaps[i - 1] * R;
 
 					const ms = gaps[i - 1] / median;
-					const outlier = ms > 3;
-
-					const diff = outlier ? 50 * 3 : 50 * ms; // 50 pixels per mean
+					const outlier = ms > outlierMult;
+					const diff = Math.min(outlierMult, ms) * avgEventDist;
 
 
 					gapline.push({ gap: true, diff, outlier, id: Math.random( )});
@@ -64,14 +56,6 @@ export default class Timeline extends Component {
 			.then(timeline => this.setState({ timeline, loading: false }))
 			.catch(alert)
 	}
-
-	// at this point, you should render whitespaces
-	// to represent time between events.
-	// you can pick an absolute global time (would be fun toggle)
-	// aka 1px = 1 day
-	// or you can pick based on distance between first and last event
-	// and event density
-	// aka minimum distance between events
 
 	render() {
 
@@ -90,8 +74,7 @@ export default class Timeline extends Component {
 				this.state.timeline.gapline
 					.map(e => <div className="entry-wrapper" key={e.id} style={{ height: `${e.diff}px` }}>
 							<div className="date">{e.timestamp ? new Date(e.timestamp * 1000).toLocaleDateString() : false}</div>
-							<div className={`v-line ${e.outlier ? "outlier" : ""}`} />
-							{ e.gap ? false : <div className="line" />  }
+							{ e.gap ? <div className={`v-line ${e.outlier ? "outlier" : ""}`} /> : false }
 							{ e.gap ? false: <TimelineEntry {...e} /> }
 						</div>)
 			}

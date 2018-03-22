@@ -1,6 +1,9 @@
 import React from 'react'
 import './style.css'
 
+import Modal from '../../components/Modal'
+import CommentImg from './comment.svg'
+
 export default class TimelineEntry extends React.Component {
 
 	constructor(props) {
@@ -10,29 +13,30 @@ export default class TimelineEntry extends React.Component {
 		}
 	}
 
+	toggleExpand = () => {
+		this.setState({ expanded: !this.state.expanded })
+	}
+
 	render() {
 		// eslint-disable-next-line
 		const {id, title, body, downvotes, imgurl, sources, timeline, timestamp, upvotes, userid} = this.props;
 
-		const dt = new Date(timestamp * 1000);
-
-		return <div className="entry">
+		return <div className={`entry ${this.state.expanded ? "expanded" : ""}`}>
 			<div className="left">
-				<img src={imgurl} href={imgurl} alt=""/>
+				<img src={imgurl} alt=""/>
 			</div>
 			<div className="middle">
 				<div className="title">{title}</div>
-				<div className="body">{body}</div>
-				<div className="ts">{dt.toLocaleDateString()}</div>
-				<div className="sources">{sources.map(s => <Source url={s} key={s} />)}</div>
 			</div>
 			<div className="right">
+				<img alt="comment" className="comment" src={CommentImg} />
 			</div>
 		</div>
 	}
 }
 
 const Source = ({url}) => {
-	return <a className="source" href={url}>{url}</a>
+	const domain = new URL(url).hostname;
+	return <a className="source" href={url}>{domain}</a>
 }
 
