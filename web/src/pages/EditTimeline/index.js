@@ -45,7 +45,6 @@ export default class EditTimeline extends React.Component {
 
 		get(`/timeline/${id}`)
 			.then(timeline => {
-				console.log(timeline)
 				if(!is_owner(timeline.userid)) {
 					alert("hey, this isn't your timeline")
 				}
@@ -65,7 +64,6 @@ export default class EditTimeline extends React.Component {
 	}
 
 	saveTimeline = debounce(() => {
-			console.log('executing savetimeline')
 			post(`/timeline/${this.state.timeline.id}/edit`, {
 				...this.state.timeline,
 				entries: undefined
@@ -76,7 +74,6 @@ export default class EditTimeline extends React.Component {
 
 	// this is for top level timeline edits -- publish and title.
 	handleChange = (key, event) => {
-		console.log('timeline handle change')
 		this.setState({ timeline: { ...this.state.timeline, [key]: event.target.value }});
 
 		this.saveTimeline();
@@ -104,8 +101,6 @@ export default class EditTimeline extends React.Component {
 				timeline: this.state.timeline.id,
 
 			}, true);
-
-			console.log("SAVED")
 
 			this.setState({
 				timeline: {
@@ -143,20 +138,17 @@ export default class EditTimeline extends React.Component {
 		/* bug report
 		const { [entry.id]: gone, ...entries } = this.state.timeline.entries;
 
-
 		console.log(gone == entry) // true
 		console.log(entries) // still includes entry
 		*/
 
 		this.setState({saving: true})
 		try {
-			const res = await post(`/timeline/entry/${entry.id}/delete`, {}, true);
-			console.log(res)
+			await post(`/timeline/entry/${entry.id}/delete`, {}, true);
 
 			let entries = JSON.parse(JSON.stringify(this.state.timeline.entries))
 			delete entries[entry.id];
 
-			console.log(entries)
 			this.setState({
 				timeline: {
 					...this.state.timeline,

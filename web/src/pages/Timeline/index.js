@@ -6,6 +6,9 @@ import Header from '../../components/Header'
 
 import './style.css'
 
+// assume sorted
+const extractGaps = (entries) => entries.slice(1).map((v, i) => v.timestamp - entries[i].timestamp)
+
 export default class Timeline extends Component {
 
 	constructor(props) {
@@ -22,13 +25,32 @@ export default class Timeline extends Component {
 
 		get(`/timeline/${id}`)
 			.then(timeline => {
+
 				const sorted = timeline.entries.sort((a, b) => a.timestamp - b.timestamp);
-				const gapline = [];
-				gapline.push(sorted[0])
+
+				const gaps = extractGaps(sorted);
+
+				const mean = gaps.reduce((a, b) => a + b)/gaps.length;
+				const span = gaps[gaps.length - 1] - gaps[0];
+				// entries.length
+				
+				// we should find a pixel length for the mean
+				// and express other lengths as functions of the mean
+				// if something is (3x) more than the mean, cap it and indicate.
+
+				const R = 50/mean;
+				const gapline = [sorted[0]];
+
 				for(let i = 1; i < sorted.length; i++) {
-					const diff = sorted[i].timestamp - sorted[i - 1].timestamp;
-					console.log(sorted[i].timestamp, sorted[i-1].timestamp, diff)
-					gapline.push({ gap: true, diff, id: Math.random() });
+					const px = gaps[i - 1] * R;
+
+					const ms = gaps[i - 1] / mean;
+					const outlier = ms > 3;
+
+					const diff = outlier ? 50 * 3 : 50 * ms; // 50 pixels per mean
+
+
+					gapline.push({ gap: true, diff, outlier, id: Math.random( )});
 					gapline.push(sorted[i]);
 				}
 
@@ -61,9 +83,9 @@ export default class Timeline extends Component {
 			<div className="entries">
 			{
 				this.state.timeline.gapline
-					.map(e => <div className="entry-wrapper" key={e.id} style={{ height: `${parseInt(e.diff / 60/60, 10)}px` }}>
+					.map(e => <div className="entry-wrapper" key={e.id} style={{ height: `${e.diff}px` }}>
 							<div className="date">{e.timestamp ? new Date(e.timestamp * 1000).toLocaleDateString() : false}</div>
-							<div className="v-line" />
+							<div className={`v-line ${e.outlier ? "outlier" : ""}`} />
 							{ e.gap ? false : <div className="line" />  }
 							{ e.gap ? false: <TimelineEntry {...e} /> }
 						</div>)

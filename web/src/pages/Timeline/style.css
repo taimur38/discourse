@@ -37,6 +37,10 @@
 	border-left: 6px solid tomato;
 }
 
+	.entry-wrapper .v-line.outlier {
+		border-style: none none none dotted;
+	}
+
 .entry-wrapper .line {
 	flex-grow: 5;
 	width: 20%;
