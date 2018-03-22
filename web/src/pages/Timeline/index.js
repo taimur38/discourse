@@ -30,13 +30,18 @@ export default class Timeline extends Component {
 
 				const gaps = extractGaps(sorted);
 
+				// I should detect outliers, remove them and recompute the mean
 				const mean = gaps.reduce((a, b) => a + b)/gaps.length;
+				const median = [...gaps].sort((a, b) => a - b)[gaps.length / 2];
+
+				//console.log(mean, median, mean-median)
+
 				const span = gaps[gaps.length - 1] - gaps[0];
 				// entries.length
 				
 				// we should find a pixel length for the mean
 				// and express other lengths as functions of the mean
-				// if something is (3x) more than the mean, cap it and indicate.
+				// if something is (3x) more tmeanhan the mean, cap it and indicate.
 
 				const R = 50/mean;
 				const gapline = [sorted[0]];
@@ -44,7 +49,7 @@ export default class Timeline extends Component {
 				for(let i = 1; i < sorted.length; i++) {
 					const px = gaps[i - 1] * R;
 
-					const ms = gaps[i - 1] / mean;
+					const ms = gaps[i - 1] / median;
 					const outlier = ms > 3;
 
 					const diff = outlier ? 50 * 3 : 50 * ms; // 50 pixels per mean
