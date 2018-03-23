@@ -8,6 +8,9 @@
 	.create.entry .middle {
 		width: 75%;
 	}
+		.create.entry .middle>* {
+			width: 100%;
+		}
 
 	.create.entry .right {
 		display: flex;
