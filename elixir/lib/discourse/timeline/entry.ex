@@ -28,7 +28,30 @@ defmodule Discourse.Timeline.Entry do
 						imgurl: imgurl,
 						userid: uid
 					}}
-				{:error, err} -> {:error, %{code: err.postgres.code, message: err.postgres.detail }}
+				{:error, err} -> {:error, %{code: err.postgres.code, message: err.postgres.detail}}
+		end
+	end
+
+	def get({ timeline_id, entry_id }) do 
+
+		case Postgrex.query(
+			Discourse.DB,
+			"SELECT id, title, body, sources, author, imgurl, timestamp, timeline, upvotes, downvotes from TimelineEntries where id=$1 and timeline=$2",
+			[entry_id, timeline_id]) do
+				{:ok, %Postgrex.Result{num_rows: 0}} -> {:error, %{code: :invalid_entry, message: "entry not found"}}
+				{:ok, resp} -> 
+					[[id, title, body, sources, userid, imgurl, timestamp, timeline, upvotes, downvotes]] = resp.rows
+					{:ok, %{
+						id: id,
+						timeline: timeline,
+						timestamp: timestamp,
+						title: title,
+						body: body,
+						sources: sources,
+						imgurl: imgurl,
+						userid: userid
+					}}
+				{:error, err} -> {:error, %{code: err.postgres.code, message: err.postgres.detail}}
 		end
 	end
 

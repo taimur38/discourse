@@ -112,7 +112,7 @@ defmodule Discourse.Server do
 
 	# endpoint for getting timeline entries
 	def handle_request(%{method: :GET, path: ["api", "timeline", id, "entries"]}, _) do
-		
+
 		{parsed_id, _} = Integer.parse(id)
 		case Discourse.Timeline.Entry.from_timeline_id(parsed_id) do
 			{:ok, entries} -> 
@@ -120,6 +120,38 @@ defmodule Discourse.Server do
 				success(entries)
 
 			{:error, err} ->failed(err)
+		end
+	end
+
+	# endpoint for getting timeline entry details and comments
+	def handle_request(%{method: :GET, path: ["api", "timeline", timeline_id, "entry", entry_id]}, _) do
+
+		{tid, _} = Integer.parse timeline_id
+		{eid, _} = Integer.parse entry_id
+
+		case Discourse.Timeline.Entry.get({tid, eid}) do
+			{:ok, entry} -> success(entry)
+			{:error, err} -> failed(err)
+		end
+	end
+
+	# endpoint for creating comment
+	def handle_request(%{method: :POST, path: ["api", "comment"], body: body}, _) do
+		payload = Poison.decode!(body, [keys: :atoms])
+
+		padded = Map.merge(%{parent_comment: nil}, payload)
+
+		case padded do
+			%{token: token, username: username, body: body, parent_entry: parent_entry, parent_comment: parent_comment} -> 
+				{:ok, [uid | _]} = Discourse.User.from_token({username, token})
+				case Discourse.Comment.create({uid, username, body, parent_entry, parent_comment}) do 
+					{:ok, comment} -> success(comment)
+					{:error, err} -> failed(err)
+				end
+
+			other -> 
+				IO.inspect other
+				failed("missing required fields")
 		end
 	end
 

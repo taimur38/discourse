@@ -102,6 +102,8 @@ export default class EditTimeline extends React.Component {
 
 			}, true);
 
+			console.log("SAVED")
+
 			this.setState({
 				timeline: {
 					...this.state.timeline,
@@ -133,34 +135,28 @@ export default class EditTimeline extends React.Component {
 		})
 	}
 
-	onDelete = async (entry) => {
+	onDelete = (entry) => {
 
 		/* bug report
 		const { [entry.id]: gone, ...entries } = this.state.timeline.entries;
+
 
 		console.log(gone == entry) // true
 		console.log(entries) // still includes entry
 		*/
 
-		this.setState({saving: true})
-		try {
-			await post(`/timeline/entry/${entry.id}/delete`, {}, true);
+		let entries = JSON.parse(JSON.stringify(this.state.timeline.entries))
+		delete entries[entry.id];
 
-			let entries = JSON.parse(JSON.stringify(this.state.timeline.entries))
-			delete entries[entry.id];
+		console.log(entries)
+		this.setState({
+			timeline: {
+				...this.state.timeline,
+				entries
+			}
+		})
 
-			this.setState({
-				timeline: {
-					...this.state.timeline,
-					entries
-				},
-				saving: false
-			})
-		}
-		catch(e) {
-			alert(e)
-			this.setState({saving: false})
-		}
+
 	}
 
 	onCancel = () => {
@@ -169,28 +165,12 @@ export default class EditTimeline extends React.Component {
 		})
 	}
 
-	onPublish = () => {
-
-		this.setState({
-			timeline: {
-				...this.state.timeline,
-				published: !this.state.timeline.published
-			}
-		})
-
-		this.saveTimeline();
-
-	}
-
 	render() {
 
 		return <div className="create-timeline">
 			<Header user={current_user()} />
 			<div className="content">
-				<div className="topper">
-					<input id="timeline_title" type="text" value={this.state.timeline.title} onChange={this.handleChange.bind(this, "title")}/>
-					<div className="button publish" onClick={this.onPublish}>{this.state.timeline.published ? "Unpublish" : "Publish"}</div>
-				</div>
+				<input id="timeline_title" type="text" value={this.state.timeline.title} onChange={this.handleChange.bind(this, "title")}/>
 
 				<div className="explainer">Enter your Timeline Entries below</div>
 				{ this.state.saving ? <div>Saving....</div> : <CreateEntry save={this.onSave} update={this.onUpdate} entry={this.state.editEntry} cancel={this.onCancel} /> }

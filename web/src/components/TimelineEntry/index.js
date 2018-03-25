@@ -1,7 +1,7 @@
 import React from 'react'
 import './style.css'
+import { Link } from 'react-router-dom'
 
-import Modal from '../../components/Modal'
 import CommentImg from './comment.svg'
 
 export default class TimelineEntry extends React.Component {
@@ -29,14 +29,17 @@ export default class TimelineEntry extends React.Component {
 				<div className="title">{title}</div>
 			</div>
 			<div className="right">
-				<img alt="comment" className="comment" src={CommentImg} />
+				<Link to={`/timeline/${timeline}/entry/${id}`}>
+					<img alt="comment" className="comment" src={CommentImg} />
+				</Link>
 			</div>
 		</div>
 	}
 }
 
+/*
 const Source = ({url}) => {
 	const domain = new URL(url).hostname;
 	return <a className="source" href={url}>{domain}</a>
 }
-
+*/

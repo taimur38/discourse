@@ -10,6 +10,7 @@ import Verify from './pages/Verification'
 import User from './pages/User'
 import Timeline from './pages/Timeline'
 import EditTimeline from './pages/EditTimeline'
+import EntryDetail from './pages/EntryDetail'
 
 export default (props) => (
 	<BrowserRouter>
@@ -17,6 +18,7 @@ export default (props) => (
 			<Route exact path="/" component={Home} />
 			<Route path="/verify" component={Verify} />
 			<Route path="/timeline/:id/edit" component={EditTimeline} />
+			<Route path="/timeline/:timeline_id/entry/:entry_id" component={EntryDetail} />
 			<Route path="/timeline/:id" component={Timeline} />
 			<Route path="/user/:username" component={User} />
 
