@@ -67,6 +67,8 @@ export default class EntryDetail extends Component {
 
 		const entry = this.state.entry;
 
+		console.log(entry)
+
 		return <div className="entry-detail-page">
 			<Header user={current_user()} />
 

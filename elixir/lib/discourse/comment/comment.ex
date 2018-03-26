@@ -15,8 +15,10 @@ defmodule Discourse.Comment do
 					[[id, timestamp]] = resp.rows
 					{:ok, %{
 						id: id,
-						user_id: user_id,
-						username: username,
+						user: %{
+							id: user_id,
+							username: username,
+						},
 						body: body,
 						timestamp: timestamp,
 						parent_entry: parent_entry,

@@ -36,11 +36,31 @@ defmodule Discourse.Timeline.Entry do
 
 		case Postgrex.query(
 			Discourse.DB,
-			"SELECT id, title, body, sources, author, imgurl, timestamp, timeline, upvotes, downvotes from TimelineEntries where id=$1 and timeline=$2",
+			"SELECT a.id, a.title, a.body, a.sources, a.author, a.imgurl, a.timestamp, a.timeline, a.upvotes, a.downvotes, 
+			b.uid, b.username, b.body, extract(epoch from b.timestamp), b.parent_comment, b.id
+			FROM TimelineEntries a LEFT OUTER JOIN Comments b ON a.id=b.parent_entry
+			WHERE a.id=$1 AND a.timeline=$2",
 			[entry_id, timeline_id]) do
 				{:ok, %Postgrex.Result{num_rows: 0}} -> {:error, %{code: :invalid_entry, message: "entry not found"}}
 				{:ok, resp} -> 
-					[[id, title, body, sources, userid, imgurl, timestamp, timeline, upvotes, downvotes]] = resp.rows
+					[[id, title, body, sources, userid, imgurl, timestamp, timeline, upvotes, downvotes | _] | _] = resp.rows
+
+					comments = resp.rows
+						|> Enum.filter(fn(row) -> List.last(row) != nil end)
+						|> Enum.map(fn(row) -> 
+							[comment_uid, comment_username, comment_body, comment_ts, comment_parent, comment_id] = Enum.slice(row, -6..-1)
+							%{
+								id: comment_id,
+								user: %{
+									id: comment_uid,
+									username: comment_username
+								},
+								body: comment_body,
+								timestamp: comment_ts,
+								parent: comment_parent
+							}
+						end)
+
 					{:ok, %{
 						id: id,
 						timeline: timeline,
@@ -49,7 +69,8 @@ defmodule Discourse.Timeline.Entry do
 						body: body,
 						sources: sources,
 						imgurl: imgurl,
-						userid: userid
+						userid: userid,
+						comments: comments
 					}}
 				{:error, err} -> {:error, %{code: err.postgres.code, message: err.postgres.detail}}
 		end
