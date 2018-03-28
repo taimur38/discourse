@@ -52,3 +52,19 @@
 		margin-top: 10px;
 		margin-left: 10px;
 	}
+
+.comments {
+	display: flex;
+	flex-direction: column;
+	width: 90%;
+	margin: auto;
+}
+
+	.comments .comment-create {
+
+	}
+
+	.comments .comment-create textarea {
+		width: 400px;
+		height: 150px;
+	}

@@ -37,7 +37,7 @@ defmodule Discourse.Timeline.Entry do
 		case Postgrex.query(
 			Discourse.DB,
 			"SELECT a.id, a.title, a.body, a.sources, a.author, a.imgurl, a.timestamp, a.timeline, a.upvotes, a.downvotes, 
-			b.uid, b.username, b.body, extract(epoch from b.timestamp), b.parent_comment, b.id
+			b.uid, b.username, b.body, extract(epoch from b.timestamp), b.parent_comment, b.level, b.id
 			FROM TimelineEntries a LEFT OUTER JOIN Comments b ON a.id=b.parent_entry
 			WHERE a.id=$1 AND a.timeline=$2",
 			[entry_id, timeline_id]) do
@@ -45,10 +45,11 @@ defmodule Discourse.Timeline.Entry do
 				{:ok, resp} -> 
 					[[id, title, body, sources, userid, imgurl, timestamp, timeline, upvotes, downvotes | _] | _] = resp.rows
 
-					comments = resp.rows
+					comment_map = %{}
+					comment_list = resp.rows
 						|> Enum.filter(fn(row) -> List.last(row) != nil end)
 						|> Enum.map(fn(row) -> 
-							[comment_uid, comment_username, comment_body, comment_ts, comment_parent, comment_id] = Enum.slice(row, -6..-1)
+							[comment_uid, comment_username, comment_body, comment_ts, comment_parent, comment_level, comment_id] = Enum.slice(row, -6..-1)
 							%{
 								id: comment_id,
 								user: %{
@@ -57,9 +58,22 @@ defmodule Discourse.Timeline.Entry do
 								},
 								body: comment_body,
 								timestamp: comment_ts,
-								parent: comment_parent
+								parent: comment_parent,
+								replies: %{},
+								level: comment_level
 							}
 						end)
+						|> sort(fn(%{level: lvl}) -> lvl end)
+						|> Enum.each(fn(comment) -> 
+							case Map.fetch(comment_map, comment.id) do
+								{:ok, parent} -> 
+							end
+						end)
+
+					IO.inspect comment_list
+
+					# loop through items, remove from map and insert as children
+
 
 					{:ok, %{
 						id: id,

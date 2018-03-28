@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 
 import Header from '../../components/Header'
 import Loading from '../../components/Loading'
+import Comment from '../../components/Comment'
 
 import { current_user, get, post } from '../../lib'
 
@@ -27,7 +28,9 @@ export default class EntryDetail extends Component {
 		this.state = {
 			loading: true,
 			entry: undefined,
-			comment: emptyComment
+			comment_replies: {
+				0: emptyComment
+			}
 		}
 	}
 
@@ -39,10 +42,22 @@ export default class EntryDetail extends Component {
 			.catch(err => alert(err))
 	}
 
-	onCommentUpdate = (e) => {
+	onCommentUpdate = (comment_id, e) => {
 		this.setState({
-			comment: {
-				body: e.target.value
+			comment_replies: {
+				...this.state.comment_replies,
+				[comment_id]: {
+					body: e.target.value
+				}
+			}
+		})
+	}
+
+	onCommentReply = (parent_id, e) => {
+		this.setState({
+			comment_replies: {
+				...this.state.comment_replies,
+				[parent_id]: { body: "type reply here"}
 			}
 		})
 	}
@@ -51,12 +66,22 @@ export default class EntryDetail extends Component {
 		console.log("SAVE", parent_comment);
 
 		post("/comment", {
-			body: this.state.comment.body,
+			body: this.state.comment_replies[parent_comment].body,
 			parent_entry: parseInt(this.props.match.params.entry_id, 10),
 			parent_comment
 		}, true)
 		.then(res => console.log(res))
+		.then(() => this.setState({ comment_replies: { ...this.state.comment_replies, [parent_comment]: { body: ""} } }))
 		.catch(alert)
+	}
+
+	onCommentCancel = (parent_id) => {
+		this.setState({
+			comment_replies: {
+				...this.state.comment_replies,
+				[parent_id]: undefined
+			}
+		})
 	}
 
 	render() {
@@ -84,8 +109,13 @@ export default class EntryDetail extends Component {
 			</div>
 			<div className="comments">
 				<div className="create">
-					<CommentCreate update={this.onCommentUpdate} save={this.onCommentSave.bind(this, undefined)} value={this.state.comment.body} />
+					<CommentCreate update={this.onCommentUpdate.bind(this, 0)} save={this.onCommentSave.bind(this, 0)} value={this.state.comment_replies[0].body} />
 				</div>
+				{
+					entry.comments.map(comment => <Comment comment={comment} key={comment.id} reply={this.onCommentReply.bind(this, comment.id)}>
+						{ this.state.comment_replies[comment.id] ? <CommentCreate update={this.onCommentUpdate.bind(this, comment.id)} save={this.onCommentSave.bind(this, comment.id)} value={this.state.comment_replies[comment.id] ? this.state.comment_replies[comment.id].body : "" } cancel={this.onCommentCancel.bind(this, comment.id)}/> : false }
+					</Comment>)
+				}
 			</div>
 		</div>
 
@@ -98,10 +128,13 @@ const Source = ({url}) => {
 	return <a className="source" href={url} target="_blank">{domain}</a>
 }
 
-const CommentCreate = ({ update, save, value }) => {
+const CommentCreate = ({ update, save, value, cancel=undefined}) => {
 
 	return <div className="comment-create">
 		<textarea className="comment-create" value={value} onChange={update} />
-		<div className="submit" onClick={save}>Submit</div>
+		<div className="bottom">
+			<div className="save" onClick={save}>Submit</div>
+			{ cancel ? <div className="cancel" onClick={cancel}>Cancel</div> : false }
+		</div>
 	</div>
 }

@@ -1,0 +1,21 @@
+.comment {
+	display: flex;
+	flex-direction: column;
+	margin: 20px 0;
+	border: 1px solid rgba(100, 100, 100, 0.8);
+	border-radius: 6px;
+	padding: 10px;
+}
+
+	.comment .body {
+		padding: 8px 0;
+	}
+
+	.comment .bottom {
+		display: flex;
+		flex-direction: row;
+	}
+
+	.comment .bottom>* {
+		margin-right: 20px;
+	}
