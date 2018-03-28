@@ -14,7 +14,9 @@ export default class Comment extends Component {
 				<UserLink username={this.props.comment.user.username} />
 				<div className="reply" onClick={this.props.reply}>Reply</div>
 			</div>
-			{ this.props.children }
+			{ this.props.children } 
+			<div className="replies">
+			</div>
 		</div>
 	}
 }

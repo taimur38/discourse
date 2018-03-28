@@ -68,7 +68,7 @@ export default class EntryDetail extends Component {
 		post("/comment", {
 			body: this.state.comment_replies[parent_comment].body,
 			parent_entry: parseInt(this.props.match.params.entry_id, 10),
-			parent_comment
+			path: []
 		}, true)
 		.then(res => console.log(res))
 		.then(() => this.setState({ comment_replies: { ...this.state.comment_replies, [parent_comment]: { body: ""} } }))
@@ -94,6 +94,7 @@ export default class EntryDetail extends Component {
 
 		console.log(entry)
 
+		// create path
 		return <div className="entry-detail-page">
 			<Header user={current_user()} />
 
@@ -112,8 +113,15 @@ export default class EntryDetail extends Component {
 					<CommentCreate update={this.onCommentUpdate.bind(this, 0)} save={this.onCommentSave.bind(this, 0)} value={this.state.comment_replies[0].body} />
 				</div>
 				{
-					entry.comments.map(comment => <Comment comment={comment} key={comment.id} reply={this.onCommentReply.bind(this, comment.id)}>
-						{ this.state.comment_replies[comment.id] ? <CommentCreate update={this.onCommentUpdate.bind(this, comment.id)} save={this.onCommentSave.bind(this, comment.id)} value={this.state.comment_replies[comment.id] ? this.state.comment_replies[comment.id].body : "" } cancel={this.onCommentCancel.bind(this, comment.id)}/> : false }
+					Object.values(entry.comments).map(comment => 
+						<Comment 
+							key={comment.id}
+							comment={comment}
+							reply={this.onCommentReply.bind(this, comment.id)} >
+						{ this.state.comment_replies[comment.id] ? 
+							<CommentCreate update={this.onCommentUpdate.bind(this, comment.id)} save={this.onCommentSave.bind(this, comment.id)} value={this.state.comment_replies[comment.id] ? this.state.comment_replies[comment.id].body : "" } cancel={this.onCommentCancel.bind(this, comment.id)}/> 
+							: false 
+						}
 					</Comment>)
 				}
 			</div>

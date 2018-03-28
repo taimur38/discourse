@@ -4,12 +4,12 @@ defmodule Discourse.Comment do
 	"""
 
 	# set time in db maybe
-	def create({ user_id, username, body, parent_entry, parent_comment } = args) do
+	def create({ user_id, username, body, parent_entry, path } = args) do
 		IO.inspect  args
 		case Postgrex.query(
 			Discourse.DB,
-			"INSERT INTO Comments (uid, username, body, timestamp, parent_entry, parent_comment) VALUES ($1, $2, $3, now(), $4, $5) RETURNING id, extract(epoch from timestamp)",
-			[user_id, username, body, parent_entry, parent_comment]) do
+			"INSERT INTO Comments (uid, username, body, timestamp, parent_entry, path) VALUES ($1, $2, $3, now(), $4, $5) RETURNING id, extract(epoch from timestamp)",
+			[user_id, username, body, parent_entry, path]) do
 
 				{:ok, resp} -> 
 					[[id, timestamp]] = resp.rows
@@ -22,7 +22,7 @@ defmodule Discourse.Comment do
 						body: body,
 						timestamp: timestamp,
 						parent_entry: parent_entry,
-						parent_comment: parent_comment
+						path: path
 					}}
 				{:error, err} -> {:error, %{code: err.postgres.code, message: err.postgres.detail}}
 		end
