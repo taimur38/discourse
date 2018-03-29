@@ -142,9 +142,9 @@ defmodule Discourse.Server do
 		padded = Map.merge(%{parent_comment: nil}, payload)
 
 		case padded do
-			%{token: token, username: username, body: body, parent_entry: parent_entry, path: path} -> 
+			%{token: token, username: username, body: body, parent_entry: parent_entry, parent_comment: parent_comment} -> 
 				{:ok, [uid | _]} = Discourse.User.from_token({username, token})
-				case Discourse.Comment.create({uid, username, body, parent_entry, path}) do 
+				case Discourse.Comment.create({uid, username, body, parent_entry, parent_comment}) do 
 					{:ok, comment} -> success(comment)
 					{:error, err} -> failed(err)
 				end

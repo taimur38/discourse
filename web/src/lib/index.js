@@ -2,16 +2,20 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 
 //const baseUrl = "http://192.168.0.27:8080/api"
+const baseUrl = "http://192.168.1.125:8080/api"
 //const baseUrl = "http://172.31.99.232:8080/api"
-const baseUrl = "http://localhost:8080/api"
+//const baseUrl = "http://localhost:8080/api"
 
 export function post(path, payload, authed = false) {
 
 	if(authed) {
-		console.log(current_user())
+
+		if(current_user() == null) {
+			return Promise.reject("not authenticated");
+		}
+
 		payload.token = current_user().token;
 		payload.username = current_user().username;
-		console.log(payload)
 	}
 
 	return fetch(`${baseUrl}${path}`, {
@@ -23,7 +27,6 @@ export function post(path, payload, authed = false) {
 		})
 	})
 		.then(resp => { 
-			console.log(resp)
 			return resp.json()
 		})
 		.then(json => {
@@ -50,7 +53,6 @@ export function get(path) {
 		mode: "cors",
 	})
 	.then(resp => {
-		console.log(resp)
 		return resp.json()
 	})
 	.then(json => {
@@ -79,7 +81,7 @@ export function localeGet(key) {
 }
 
 export function is_owner(uid) {
-	return current_user().id == uid;
+	return current_user() && current_user().id == uid;
 }
 
 export function current_user() {

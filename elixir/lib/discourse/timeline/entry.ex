@@ -87,6 +87,7 @@ defmodule Discourse.Timeline.Entry do
 
 	defp get_path(%{path: path, id: id}) do
 		p = String.split(path, "/")
+			|> Enum.filter(&(&1 != ""))
 			|> Enum.reduce([], fn(parent_id, acc) -> acc ++ [parent_id, :replies] end)
 		p ++ ["#{id}"]
 	end

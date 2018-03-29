@@ -29,7 +29,7 @@ export default class EntryDetail extends Component {
 			loading: true,
 			entry: undefined,
 			comment_replies: {
-				0: emptyComment
+				undefined: emptyComment
 			}
 		}
 	}
@@ -42,7 +42,10 @@ export default class EntryDetail extends Component {
 			.catch(err => alert(err))
 	}
 
-	onCommentUpdate = (comment_id, e) => {
+	onCommentUpdate = (...args) => {
+		const comment_id = args[args.length - 2]
+		const e= args[args.length - 1]
+
 		this.setState({
 			comment_replies: {
 				...this.state.comment_replies,
@@ -53,7 +56,9 @@ export default class EntryDetail extends Component {
 		})
 	}
 
-	onCommentReply = (parent_id, e) => {
+	onCommentReply = (...args) => {
+
+		const parent_id = args[args.length - 2]
 		this.setState({
 			comment_replies: {
 				...this.state.comment_replies,
@@ -62,20 +67,42 @@ export default class EntryDetail extends Component {
 		})
 	}
 
-	onCommentSave = (parent_comment) => {
-		console.log("SAVE", parent_comment);
+	onCommentSave = (...args) => {
+		const parent_path = args[args.length - 2]
+		const parent_comment = args[args.length - 3]
 
 		post("/comment", {
 			body: this.state.comment_replies[parent_comment].body,
 			parent_entry: parseInt(this.props.match.params.entry_id, 10),
-			path: []
+			parent_comment: parent_comment
 		}, true)
-		.then(res => console.log(res))
-		.then(() => this.setState({ comment_replies: { ...this.state.comment_replies, [parent_comment]: { body: ""} } }))
+		.then(res => {
+			const keys = res.path.split('/')
+				.filter(x => x != "")
+				.reduce((agg, curr) => [...agg, curr, "replies"], []);
+
+			console.log(keys)
+			const comment_copy = JSON.parse(JSON.stringify(this.state.entry.comments));
+			let n = comment_copy;
+			for(let i = 0; i < keys.length; i++) {
+				n = n[keys[i]];
+			}
+			n[res.id] = res;
+
+			this.setState({ 
+				comment_replies: { ...this.state.comment_replies, [parent_comment]: { body: undefined} },
+				entry: {
+					...this.state.entry,
+					comments: comment_copy
+				}
+			})
+		})
 		.catch(alert)
 	}
 
-	onCommentCancel = (parent_id) => {
+	onCommentCancel = (...args) => {
+		const parent_id = args[args.length - 2];
+
 		this.setState({
 			comment_replies: {
 				...this.state.comment_replies,
@@ -91,8 +118,6 @@ export default class EntryDetail extends Component {
 		}
 
 		const entry = this.state.entry;
-
-		console.log(entry)
 
 		// create path
 		return <div className="entry-detail-page">
@@ -110,19 +135,24 @@ export default class EntryDetail extends Component {
 			</div>
 			<div className="comments">
 				<div className="create">
-					<CommentCreate update={this.onCommentUpdate.bind(this, 0)} save={this.onCommentSave.bind(this, 0)} value={this.state.comment_replies[0].body} />
+					<CommentCreate 
+						update={this.onCommentUpdate.bind(this, undefined)} 
+						save={this.onCommentSave.bind(this, undefined, null)} 
+						value={this.state.comment_replies[undefined].body} />
 				</div>
 				{
 					Object.values(entry.comments).map(comment => 
 						<Comment 
 							key={comment.id}
 							comment={comment}
-							reply={this.onCommentReply.bind(this, comment.id)} >
-						{ this.state.comment_replies[comment.id] ? 
-							<CommentCreate update={this.onCommentUpdate.bind(this, comment.id)} save={this.onCommentSave.bind(this, comment.id)} value={this.state.comment_replies[comment.id] ? this.state.comment_replies[comment.id].body : "" } cancel={this.onCommentCancel.bind(this, comment.id)}/> 
-							: false 
-						}
-					</Comment>)
+							reply={this.onCommentReply.bind(this, comment.id)} 
+
+							replyMap={this.state.comment_replies}
+							update={this.onCommentUpdate.bind(this, comment.id)}
+							save={this.onCommentSave.bind(this, comment.id, comment.path)}
+							value={this.state.comment_replies[comment.id] ? this.state.comment_replies[comment.id].body : undefined}
+							cancel={this.onCommentCancel.bind(this, comment.id)}
+							/>)
 				}
 			</div>
 		</div>
