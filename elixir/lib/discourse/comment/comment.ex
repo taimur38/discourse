@@ -16,7 +16,6 @@ defmodule Discourse.Comment do
 	end
 
 	defp write({user_id, username, body, parent_entry, path} = args) do 
-		IO.inspect args
 		case Postgrex.query(
 			Discourse.DB,
 			"

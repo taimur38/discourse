@@ -90,7 +90,10 @@ export default class EntryDetail extends Component {
 			n[res.id] = res;
 
 			this.setState({ 
-				comment_replies: { ...this.state.comment_replies, [parent_comment]: { body: undefined} },
+				comment_replies: {
+					...this.state.comment_replies,
+					[parent_comment]: parent_comment == undefined ? emptyComment : undefined
+				},
 				entry: {
 					...this.state.entry,
 					comments: comment_copy
@@ -141,11 +144,14 @@ export default class EntryDetail extends Component {
 						value={this.state.comment_replies[undefined].body} />
 				</div>
 				{
-					Object.values(entry.comments).map(comment => 
+					Object.values(entry.comments)
+					.sort((a, b) => b.timestamp - a.timestamp)
+					.map(comment => 
 						<Comment 
 							key={comment.id}
 							comment={comment}
 							reply={this.onCommentReply.bind(this, comment.id)} 
+							m
 
 							replyMap={this.state.comment_replies}
 							update={this.onCommentUpdate.bind(this, comment.id)}
