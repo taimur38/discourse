@@ -131,10 +131,10 @@ export default class EntryDetail extends Component {
 					<img src={entry.imgurl} alt="" />
 					<div className="title">{entry.title}</div>
 				</div>
-				<div className="sources">
-					{entry.sources.map(s => <Source key={s} url={s} />)}
-				</div>
 				<div className="body">{entry.body}</div>
+				<div className="sources">
+					Sources: {entry.sources.map(s => <Source key={s} url={s} />)}
+				</div>
 			</div>
 			<div className="comments">
 				<div className="create">

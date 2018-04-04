@@ -7,7 +7,6 @@
 	height: auto;
 	margin: 20px auto;
 	padding: 10px;
-	padding-bottom: 50px;
 	background: rgba(0,0,0,.05);
 	border-radius: 4px;
 }
@@ -33,12 +32,14 @@
 	}
 
 	.entry-detail .sources {
+		margin-top: 10px;
 		display: flex;
+		align-items: center;
 	}
 
 	.entry-detail .source {
 		text-decoration: none;
-		border: 4px solid steelblue;
+		/*border: 4px solid steelblue;*/
 		border-radius: 6px;
 		padding: 6px 8px;
 		color: steelblue;
@@ -53,8 +54,7 @@
 	}
 
 	.entry-detail .body {
-		margin-top: 10px;
-		margin-left: 10px;
+		margin: 30px;
 	}
 
 .comments {
@@ -64,11 +64,16 @@
 	margin: auto;
 }
 
-	.comments .comment-create {
-
-	}
-
 	.comments .comment-create textarea {
 		width: 400px;
 		height: 150px;
+	}
+
+	.create .comment-create {
+		display: flex;
+		align-items: center;
+	}
+
+	.create .comment-create .save {
+		margin-left: 15px;
 	}

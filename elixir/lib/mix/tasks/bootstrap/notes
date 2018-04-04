@@ -1,0 +1,28 @@
+
+
+data['feed']['entry'] is a row
+entry[0]['content']['$t']
+
+first row is headers
+
+0 start date
+1 end date
+2 headline
+3 text
+4 media
+5 media credit
+6 media caption
+7 media thumbnail
+8 type
+9 tag
+
+
+nk:
+	gsx$year|month|day|time 
+	gsx$end(year|month|day|time)
+	gsx$headline
+	gsx$text
+	gsx$media
+
+
+function to extract

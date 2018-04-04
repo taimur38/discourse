@@ -1,0 +1,254 @@
+{
+    "timeline":
+	    {
+	        "headline": "How Wine Colonized The World",
+	        "text": "The story of wine is deeply intertwined with the story of all of recorded human history. Follow our timeline to see how wine grapes have taken root in every continent except Antarctica.",
+	        "asset": 
+			{
+				"media": "http://vinepair.com/wp-content/themes/vpcontent/css/world-map-b.jpg",
+	        	"caption": "The Ptolemy world map is a map of the known world to Hellenistic society in the 2nd century CE."
+			},
+	        "type": "title",
+			"date": [
+			    {
+			        "startDate": "-4100",
+			        "headline": "The Oldest Winery Is Founded In Ancient Armenia",
+			        "text": "What we know of to be the oldest winery is founded in ancient Armenia. The site was discovered in 2007 by <a href=\"http://news.nationalgeographic.com/news/2011/01/110111-oldest-wine-press-making-winery-armenia-science-ucla/\" target=\"_blank\">UCLA researchers</a>.",
+			        "asset": 
+					{
+						"media": "http://vinepair.com/wp-content/themes/vpcontent/css/1-armenia.jpg",
+				        "credit": "National Geographic/GREGORY ARESHIAN"
+					}
+			    },
+			    {
+			        "startDate": "-3100",
+			        "headline": "The Pharaohs Rise To Power In Egypt",
+			        "text": "The pharaohs rise to power in Egypt. They begin making a wine-like substance from red grapes and, due to its resemblance to blood, use it in ceremonies. During this time, the Egyptians come in contact with Jews as well as the Phoenicians. It would be the Phoenicians who would cultivate the wine and begin to spread it around the world.",
+					"asset": 
+					{
+			        	"media": "http://vinepair.com/wp-content/themes/vpcontent/css/2-egypt.jpg"
+					}
+			    },
+			    {
+			        "startDate": "-1700",
+			        "headline": "Wine Was Drank At Least 3,700 Years Ago In Northern-Israel",
+			        "text": "Archaeologists <a href=\"http://vinepair.com/wine-blog/ancient-wine-bar-discovered/\"  target=\"_blank\">recently discovered</a> a 3,700-year-old cellar in northern-Israel. The scientists who have studied the findings say that more than 500 gallons of wine were once stored in this cellar (that’s enough to fill 3,000 bottles!).",
+					"asset":
+					{
+			        	"media": "http://vinepair.com/wp-content/themes/vpcontent/css/3-israel.jpg",
+			        	"credit": "Eric H. Cline/George Washington University"
+					}
+			    },
+			    {
+			        "startDate": "-1200",
+			        "endDate": "-539",
+			        "headline": "The Phoenicians Begin To Trade Across The Mediterranean",
+			        "text": "The Phoenicians begin to trade across the Mediterranean, including the Middle East (current day Israel) and stretching around the sea from North Africa to points in Greece and Italy. It was during their trading that they also brought with them wine, transported in ceramic jugs, as well as grapevines. During travels, the Phoenicians come in contact with the Jews, who began to use wine to mark religious ceremonies. We first hear the mention of wine in the book of Genesis, when, after the flood, Noah, drunk on wine, exposes himself to his sons.",
+					"asset":
+					{
+			        	"media": "http://vinepair.com/wp-content/themes/vpcontent/css/4-phoenicians.jpg"
+					}
+			    },
+			    {
+			        "startDate": "-800",
+			        "headline": "The Rise Of Greece & Hellenistic Conquest",
+			        "text": "The Greeks, having been exposed to wine by the Phoenicians, begin to perfect the beverage. Wine becomes a symbol for trade, religion and health. A god is named in honor of wine: Dionysus. As the Greek city-states begin to rise in power, they colonize other land around the Mediterranean, and, along with their armies, travel with wine. After a new colony was conquered, Greeks would settle the area, bringing grapevines with them. Sicily and southern Italy formed some of the earliest colonies, and the wine then traveled up the boot toward Rome.",
+					"asset":
+					{
+			        	"media": "http://vinepair.com/wp-content/themes/vpcontent/css/5-greece.jpg",
+			        	"caption": "Dionysos in a ship, sailing among dolphins. Attic black-figure kylix, ca. 530 BC"
+					}
+			    },
+			    {
+			        "startDate": "-146",
+			        "headline": "Rome Conquers Greece & Builds An Empire",
+			        "text": "The Romans take wine as their own, creating Bacchus, their own god of wine, and make wine a central part of their culture, just as the Greeks had done. They build upon and formalize the Greek's cultivation methods to the point that terroir is recognized and famous vintages (121 BC the most well known) are enjoyed for decades. As the Empire and its troops expand across Europe, Romans plant grapevines in modern day France, Germany, Italy, Portugal, Spain as well as a number of Central European nations.",
+					"asset":
+					{
+			        	"media": "http://vinepair.com/wp-content/themes/vpcontent/css/6-rome.jpg",
+			        	"caption": "<em>The Grand Crus of the Roman Empire?</em> Pliny the Elder recognized the Falernian, Alban and Caecuban wines in a manner similar to Bordeaux's growth classifications!"
+					}
+			    },
+			    {
+			        "startDate": "380",
+			        "headline": "The Roman Empire Adopts Christianity",
+			        "text": "As the Roman Empire adopts the Catholic Church and Christianity, wine becomes a central part of the sacrament. Wine’s importance to Catholicism and Mass causes the Catholic Church to focus on wine cultivation and production. Monks in Italy and France begin working as vintners, and winemaking technology is perfected. As the Catholic Church grows across Europe, wine goes with it.",
+					"asset":
+					{
+			        	"media": "http://en.wikipedia.org/wiki/Edict_of_Thessalonica"
+					}
+			    },
+			    {
+			        "startDate": "1492",
+			        "endDate": "1600",
+			        "headline": "Wine Travels To The New World",
+			        "text": "Wine travels to the New World and it’s brought to Mexico and Brazil by the conquistadors. Wine spreads across South America from these two original locales.",
+					"asset":
+					{
+			        	"media": "http://vinepair.com/wp-content/themes/vpcontent/css/7-new-world.jpg",
+			        	"caption": "World Map by Diego Ribero, aka \"Propaganda map\" (1529), now at the Biblioteca Apostolica Vaticana, Vatican City"
+					}
+			    },
+			    {
+			        "startDate": "1543",
+			        "headline": "Portuguese Jesuits Arrive In Japan",
+			        "text": "The Portuguese sail to Japan. Saint Francis Xavier brings wine as a gift for the feudal lords six years later. Jesuits convert over 100,000 Japanese citizens to Catholicism. At the same time they introduce imported European wine to the population. In 1587, when Toyotomi Hideyoshi reunifies Japan, Christianity is banned. Grapevines are finally planted around 300 years later, during the Meiji restoration, when the nation embraces Western culture.",
+					"asset":
+					{
+			        	"media": "http://vinepair.com/wp-content/themes/vpcontent/css/japan.jpg",
+			        	"caption": "The Japanese embassy with Pope Gregory XIII on March 23, 1585."
+					}
+			    },
+			    {
+			        "startDate": "1554",
+			        "headline": "Spanish Missionaries Spread Across The Americas",
+			        "text": "Spanish missionaries, traveling from points North, including Mexico, establish Chile’s first winery.",
+					"asset":
+					{
+			        	"media": "http://vinepair.com/wp-content/themes/vpcontent/css/8-conquistadors.jpg"
+					}
+			    },
+			    {
+			        "startDate": "1556",
+			        "headline": "Spanish Missionaries Travel From Chile To Argentina",
+			        "text": "Spanish missionaries travel from Chile to Argentina, settling in the Mendoza wine region, and planting the region’s first grapes.",
+					"asset":
+					{
+			        	"media": "http://vinepair.com/wp-content/themes/vpcontent/css/argentina.jpg"
+					}
+			    },
+			    {
+			        "startDate": "1562",
+			        "endDate": "1564",
+			        "headline": "Wine Briefly Comes To The U.S. In Florida",
+			        "text": "Wine comes to America, being made for the first time by French Huguenots in Jacksonville, FL. The Huguenots did not bring European grapes with them, but instead used native grapes they found growing in the area. The wine made was not pleasant to the Huguenots, and they stopped making the wine shortly after they began.",
+					"asset":
+					{
+			        	"media": "http://vinepair.com/wp-content/themes/vpcontent/css/9-americas.jpg",
+			        	"caption": "Exploration of Florida by Ribault and Laudonniere, 1564"
+					}
+			    },
+			    {
+			        "startDate": "1608",
+			        "headline": "Samuel de Champlain Establishes Permanent French Settlements In Canada, Founding Quebec City",
+			        "text": "Norseman Leif Eirikson is believed to have cultivated wildly growing grapes in 1001 AD, but the settlement didn't last. The French claim Canada as their territory in 1534, but they do not establish permanent settlements until 1608, when Samuel de Champlain founds Quebec City. Jesuits quickly follow and attempt to grow European grapes. They have little success so they turn to the local grapes.",
+					"asset":
+					{
+			        	"media": "http://vinepair.com/wp-content/themes/vpcontent/css/canada.jpg",
+			        	"caption": "Samuel de Champlain, Carte geographique de la Nouvelle France: 1612"
+					}
+			    },
+			    {
+			        "startDate": "1619",
+			        "headline": "The French Begin Cultivating Imported Grapevines In Virginia",
+			        "text": "The French import French grapevines and begin cultivating wine in Virginia. Wine starts to be made up and down the Eastern Seaboard, but, due to the colony’s Puritanical roots, it does not immediately take off.",
+					"asset":
+					{
+			        	"media": "http://vinepair.com/wp-content/themes/vpcontent/css/monticello.jpg",
+			        	"credit": "Thomas Jefferson, Viticulturist by <a href=\"http://www.flickr.com/photos/22714323@N06/2814896533/\" target=\"_blank\">Tony/Flickr</a>",
+			        	"caption": "The Northeast Vineyard and Garden Pavilion at Monticello. Thomas Jefferson failed at cultivating the Vitis Vinifera grape species at Monticello. Today, with more modern methods of cultivation, Virginia produces great wines."
+					}
+			    },
+			    {
+			        "startDate": "1659",
+			        "headline": "The Dutch East India Company Colonize South Africa",
+			        "text": "As the Dutch East India Company colonizes South Africa, there is a demand for wine to supply the sailors for their long journey back from Africa to Europe. Vines are planted and wine production begins in Cape Province to fill this need. Later the English would seize the colony.",
+					"asset":
+					{
+			        	"media": "http://vinepair.com/wp-content/themes/vpcontent/css/10-south-africa.jpg",
+			        	"caption": "Jan van Riebeeck arrives in Table Bay in April 1652."
+					}
+			    },
+			    {
+			        "startDate": "1769",
+			        "headline": " Spanish Missionary Junípero Serra Travels To California",
+			        "text": "Spanish missionary Junípero Serra, having traveled from Spain to spread the gospel in the New World, travels to California from Mexico City, opening a mission in San Diego and bringing with him grapes in order to create the region’s first wine. Spanish missions then spread across California, and the Franciscan monks bring with them the art of making wine, establishing Sonoma’s first winery in 1805.",
+					"asset":
+					{
+			        	"media": "http://vinepair.com/wp-content/themes/vpcontent/css/11-california.jpg",
+			        	"caption": "Mission San Juan Capistrano was a Spanish mission in Southern California, located in present-day San Juan Capistrano. It was founded on All Saints' Day November 1, 1776, by Spanish Catholics of the Franciscan Order."
+					}
+			    },
+			    {
+			        "startDate": "1785",
+			        "headline": "Thomas Jefferson Is Appointed The Minister To France",
+			        "text": "Thomas Jefferson is appointed the minister to France. Jefferson travels to France and falls in love with French wine, particularly <a href=\"http://vinepair.com/wine-101/bordeaux-what-is-bordeaux-wine/\"  target=\"_blank\">Bordeaux</a> and <a href=\"http://vinepair.com/wine-101/guide-burgundy-wines/\"  target=\"_blank\">Burgundy</a>. Jefferson becomes convinced wine of equal caliber can be produced in the US. He returns with more French grape cuttings, and a desire to see wine thrive in Virginia.",
+					"asset":
+					{
+			        	"media": "https://www.youtube.com/watch?v=VyiYeKSaIBU",
+			        	"credit": "Thomas Jefferson's Love Affair With Wine - <em>NPR</em>"
+					}
+			    },
+			    {
+			        "startDate": "1788",
+			        "headline": "The First Fleet Sails To Australia Via South Africa",
+			        "text": "The First Fleet, having departed the UK in 1787 in order to travel to Australia to establish the penal colony, makes a stop in South Africa. During the stop the fleet picks up grape cuttings that will be planted in Australia upon the fleet's arrival.",
+					"asset":
+					{
+			        	"media": "http://vinepair.com/wp-content/themes/vpcontent/css/first-fleet.jpg",
+			        	"caption": "Colour lithograph of the First Fleet entering Port Jackson on January 26 1788, drawn in 1888"
+					}
+			    },
+			    {
+			        "startDate": "1832",
+			        "headline": "James Busby Is Appointed British Resident Of New Zealand",
+			        "text": "James Busby, a British resident living in Australia who is considered the father of the Australian wine industry, is appointed to the position of British Resident of New Zealand by the British government. Busby travels from Australia to New Zealand and brings with him grape cuttings from Australia. He establishes New Zealand’s first vineyard in 1836.",
+					"asset":
+					{
+			        	"media": "http://vinepair.com/wp-content/themes/vpcontent/css/13-nz.jpg"
+					}
+			    },
+			    {
+			        "startDate": "1848",
+			        "endDate": "1855",
+			        "headline": "The California Gold Rush",
+			        "text": "Americans seeking to better their prospects travel west, bringing with them a desire for riches and a taste for wine. Their taste for wine not only increases demand for the wine already being made in California, but the gold rushers also bring with them vines from the East coast, most indigenous to France, but also <a href=\"http://vinepair.com/wine-101/learn-zinfandel-red-white/\">Zinfandel</a>, a grape for which California would become known, that originated in Croatia.",
+					"asset":
+					{
+			        	"media": "http://vinepair.com/wp-content/themes/vpcontent/css/15-california.jpg"
+					}
+			    },
+			    {
+			        "startDate": "1863",
+			        "endDate": "1962",
+			        "headline": "Wine Planted By French Colonists In Algeria Flourish During The Great French Wine Blight",
+			        "text": "Phoenicians planted wine here back in their era, but Islamic rule eventually stuffed that out. When France took control of Algeria in 1830 they started replanting vineyards. Wine production soared when phylloxera decimated the French wine industry in the 1860s - 70s. Production hit a high point in the 1930s, with most of the wine being exported, particularly to French winemakers in the Languedoc for blending. When the French ceded control in 1962, production went into a long decline.",
+					"asset":
+					{
+			        	"media": "http://vinepair.com/wp-content/themes/vpcontent/css/16-algeria.jpg",
+			        	"caption": "The capital, Algiers, is located in the north of country, where the nation's vineyards flourished. The coastal region has a Mediterranean climate."
+					}
+			    },
+			    {
+			        "startDate": "1870",
+			        "headline": "Basque & Italian Immigrants Arrive In Uruguay",
+			        "text": "Don Pascual Harriague, a French Basque immigrant plants <a href=\"http://en.wikipedia.org/wiki/Tannat\" target=\"_blank\">Tannat</a> vines, which will come to be considered Uruguay's 'National Grape.'",
+					"asset":
+					{
+			        	"media": "http://vinepair.com/wp-content/themes/vpcontent/css/uruguay.jpg"
+					}
+			    },
+			    {
+			        "startDate": "1980",
+			        "endDate": "2013",
+			        "headline": "China Opens Up Its Economy",
+			        "text": "As the Chinese economy opened to the world under Deng Xiaoping, imports of French wine arrived, followed by the French themselves, working with local partners to plant vineyards. In 30 years, as China's middle and upper class populations ballooned, the nation has grown into both one of the world's largest consumers and producers of wine. <em>See our posts on China: <a href=\"http://vinepair.com/wine-blog/whats-deal-china-wine/\"  target=\"_blank\">'What's The Deal With China And Wine'</a> & <a href=\"http://vinepair.com/wine2013\"  target=\"_blank\">'The Biggest Consumers Of Wine In 2013'</a></em>",
+					"asset":
+					{
+			        	"media": "http://vinepair.com/wp-content/themes/vpcontent/css/17-china.jpg",
+			        	"credit": "GlobalTimes.cn",
+			        	"caption": "Customers select wine in a supermarket in Nantong. Although Chinese wines such as Chairman's Reserve have won global praise, production is dominated by a few large companies such as Changyu Pioneer Wine, China Great Wall Wine Co., and Dynasty Fine Wines."
+					}
+			    },
+			    {
+			        "startDate": "2014",
+			        "headline": "2014 - See You In Antarctica!",
+			        "text": "We hope you enjoyed our timeline exploring the globalization of wine. If you're in the mood to learn more about wine you should head over to <a href=\"http://vinepair.com/wine-101/\" style=\"font-weight: 700;\">Wine 101</a>, our free guide to everything there is to know about wine, from aging bottles to Zinfandel, and everything in between.<br><br> Like you see here? Then sign up for our weekly newsletter to hear about everything we're doing!<br><a href=\"http://vinepair.com/newsletter/\" target=\"_blank\"><img src=\"http://vinepair.com/wp-content/themes/vpcontent/images/test/newsletter-cta.png\" style=\"border: none !important; margin-left: -10px !important;\"></a>",
+					"asset":
+					{
+			        	"media": "http://vinepair.com/wp-content/themes/vpcontent/css/wine-101.jpg"
+					}
+			    }
+			]
+    }
+}
