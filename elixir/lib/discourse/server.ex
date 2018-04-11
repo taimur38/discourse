@@ -61,7 +61,7 @@ defmodule Discourse.Server do
 				case Discourse.User.create({ username, email }) do
 					{:ok, uid} -> 
 						IO.puts "created user"
-						{:ok, _} = Discourse.User.save_token({uid, username, token})
+						{:ok} = Discourse.User.save_token({uid, username, token})
 
 						Discourse.Email.send({
 							"Welcome to Discourse",
