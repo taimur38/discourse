@@ -46,7 +46,7 @@ export function post(path, payload, authed = false) {
 		})
 }
 
-export function get(path) {
+export function get(path, authed = false) {
 
 	return fetch(`${baseUrl}${path}`, {
 		method: "GET",

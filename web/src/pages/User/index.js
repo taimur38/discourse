@@ -44,12 +44,15 @@ class User extends React.Component {
 
 		if(this.state.loading) { return <Loading /> }
 
+		console.log(this.state.timelines)
 		return <div className="user">
 			<Header user={current_user()} />
 			<div className="content">
 				<div className="create-new" onClick={this.onCreate}>Create New Timeline</div>
 				{
-					this.state.timelines.map(tl => TimelineStub(tl))
+					this.state.timelines
+						.filter(tl => current_user() && current_user().username == tl.author.username ? true : tl.published)
+						.map(tl => TimelineStub(tl))
 				}
 			</div>
 		</div>
