@@ -66,7 +66,7 @@ defmodule Discourse.Server do
 						Discourse.Email.send({
 							"Welcome to Discourse",
 							"<div>
-								Welcome to Discourse, #{username}. Your login link is <a href=\"http://discourse.metal.fish/verify?username=#{username}&token=#{token}\">here</a>.
+								Welcome to Discourse, #{username}. Your login link is <a href=\"https://discourse.metal.fish/verify?username=#{username}&token=#{token}\">here</a>.
 							</div>"
 						}, email)
 
