@@ -104,6 +104,7 @@ defmodule Discourse.Server do
 	def handle_request(%{method: :GET, path: ["api", "timeline", id]}, _) do
 		{parsed_id, _} = Integer.parse(id)
 		case Discourse.Timeline.from_id(parsed_id) do
+			{:ok, %{published: false}} -> failed("this timeline is not publicly available")
 			{:ok, timeline} -> success(timeline)
 			{:error, err} -> failed(err)
 		end
