@@ -16,10 +16,15 @@
 .create-timeline #timeline_title {
 	font-size: 1.1rem;
 	transition: all .3s ease-in-out;
+	margin: 20px 0;
+}
+
+.create-timeline .under-title {
+	display: flex;
 }
 
 .create-timeline .explainer {
-	padding: 20px 0;
+	margin: 20px 0;
 }
 
 .create-timeline .entry-wrap {

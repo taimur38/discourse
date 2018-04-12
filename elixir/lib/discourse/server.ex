@@ -107,7 +107,6 @@ defmodule Discourse.Server do
 			{:ok, timeline} -> success(timeline)
 			{:error, err} -> failed(err)
 		end
-
 	end
 
 	# endpoint for getting timeline entries

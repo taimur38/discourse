@@ -1,6 +1,7 @@
 .create.entry {
 	padding: 10px 20px;
 	height: 400px;
+	margin: 10px 0;
 
 	border: 1px solid slategrey;
 }

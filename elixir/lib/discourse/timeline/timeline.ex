@@ -25,7 +25,6 @@ defmodule Discourse.Timeline do
 			{:ok, resp} -> {:ok}
 			{:error, err} -> {:error, %{code: err.postgres.code, message: err.postgres.detail}}
 		end
-
 	end
 
 	@doc """

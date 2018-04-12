@@ -29,7 +29,8 @@ export default class EditTimeline extends React.Component {
 		this.state = {
 			timeline: {
 				title: "Timeline Title",
-				entries: {}
+				entries: {},
+				published: false
 			},
 			editEntry: emptyEntry,
 			saving: false
@@ -126,6 +127,15 @@ export default class EditTimeline extends React.Component {
 		}
 	}
 
+	publish = () => {
+		this.setState({
+			timeline: {
+				...this.state.timeline,
+				publish: true
+			}
+		}, this.saveTimeline)
+	}
+
 	onEdit = (entry) => {
 		this.setState({
 			editEntry: {
@@ -155,8 +165,6 @@ export default class EditTimeline extends React.Component {
 				entries
 			}
 		})
-
-
 	}
 
 	onCancel = () => {
@@ -166,12 +174,16 @@ export default class EditTimeline extends React.Component {
 	}
 
 	render() {
+		console.log(this.state)
 
 		return <div className="create-timeline">
 			<Header user={current_user()} />
 			<div className="content">
 				<input id="timeline_title" type="text" value={this.state.timeline.title} onChange={this.handleChange.bind(this, "title")}/>
 
+				<div className="under-title">
+					{ !this.state.timeline.published ? <div className="publish" onClick={this.publish}>Publish</div> : <div>This timeline is published publicly</div>}
+				</div>
 				<div className="explainer">Enter your Timeline Entries below</div>
 				{ this.state.saving ? <div>Saving....</div> : <CreateEntry save={this.onSave} update={this.onUpdate} entry={this.state.editEntry} cancel={this.onCancel} /> }
 				<div className="entries">
