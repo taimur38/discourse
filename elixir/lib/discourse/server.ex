@@ -37,7 +37,7 @@ defmodule Discourse.Server do
 						Discourse.Email.send({
 							"Log In To Discourse",
 							"<div>
-								Welcome back, #{username}. Your login link is <a href=\"http://localhost:3000/verify?username=#{username}&token=#{token}\">here</a>.
+								Welcome back, #{username}. Your login link is <a href=\"https://discourse.metal.fish/verify?username=#{username}&token=#{token}\">here</a>.
 							</div>"
 						}, email)
 						Discourse.User.save_token({uid, username, token})

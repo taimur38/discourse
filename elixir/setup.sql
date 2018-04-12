@@ -54,4 +54,5 @@ CREATE TABLE Comments (
 	parent_entry int references TimelineEntries(id) NOT NULL,
 	path text
 );
+
 create index on Comments(parent_entry);
