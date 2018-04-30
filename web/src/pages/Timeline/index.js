@@ -33,14 +33,14 @@ export default class Timeline extends Component {
 				const sorted = timeline.entries.sort((a, b) => a.timestamp - b.timestamp);
 				console.log('sorted')
 
-				const gaps = extractGaps(sorted);
+				const gaps = extractGaps([...sorted]);
 
 				// I should detect outliers, remove them and recompute the mean
 				const mean = gaps.reduce((a, b) => a + b, 0)/gaps.length;
 				const median = [...gaps].sort((a, b) => a - b)[parseInt(gaps.length / 2)];
 				const span = sorted.length > 0 ? (sorted[sorted.length - 1].timestamp - sorted[0].timestamp) : false;
 
-				const gapline = [sorted[-1]].filter(x => x);
+				const gapline = [sorted[0]].filter(x => x);
 
 				for(let i = 1; i < sorted.length; i++) {
 
@@ -61,8 +61,6 @@ export default class Timeline extends Component {
 	render() {
 
 		if(this.state.loading) { return <Loading /> }
-
-		// calculate space between entries.
 
 		return <div className="timeline">
 			<Header user={current_user()}/>
