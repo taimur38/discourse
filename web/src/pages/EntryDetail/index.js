@@ -133,7 +133,7 @@ export default class EntryDetail extends Component {
 				</div>
 				<div className="body">{entry.body}</div>
 				<div className="sources">
-					Sources: {entry.sources.map(s => <Source key={s} url={s} />)}
+					{entry.sources.map(s => <Source key={s} url={s} />)}
 				</div>
 			</div>
 			<div className="comments">

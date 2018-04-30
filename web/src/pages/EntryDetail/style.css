@@ -9,6 +9,7 @@
 	padding: 10px;
 	background: rgba(0,0,0,.05);
 	border-radius: 4px;
+	overflow-x: hidden;
 }
 
 	.entry-detail img {
@@ -32,9 +33,12 @@
 	}
 
 	.entry-detail .sources {
+		display: flex;
 		margin-top: 10px;
 		display: flex;
 		align-items: center;
+		width: 100%;
+		flex-wrap: wrap;
 	}
 
 	.entry-detail .source {

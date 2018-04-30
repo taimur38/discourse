@@ -37,17 +37,16 @@ export default class Timeline extends Component {
 
 				// I should detect outliers, remove them and recompute the mean
 				const mean = gaps.reduce((a, b) => a + b, 0)/gaps.length;
-				const median = [...gaps].sort((a, b) => a - b)[gaps.length / 2];
-				const span = sorted.lenngth > 0 && sorted[sorted.length - 1].timestamp - sorted[0].timestamp;
-				
-				const gapline = [sorted[0]].filter(x => x);
+				const median = [...gaps].sort((a, b) => a - b)[parseInt(gaps.length / 2)];
+				const span = sorted.length > 0 ? (sorted[sorted.length - 1].timestamp - sorted[0].timestamp) : false;
+
+				const gapline = [sorted[-1]].filter(x => x);
 
 				for(let i = 1; i < sorted.length; i++) {
 
 					const ms = gaps[i - 1] / median;
 					const outlier = ms > outlierMult;
 					const diff = Math.min(outlierMult, ms) * avgEventDist;
-
 
 					gapline.push({ gap: true, diff, outlier, id: Math.random( )});
 					gapline.push(sorted[i]);

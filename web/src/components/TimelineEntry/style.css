@@ -9,7 +9,6 @@
 	height: 80px;
 	width: 100%;
 	overflow: hidden;
-
 }
 
 .entry .left {
@@ -19,7 +18,7 @@
 .entry .left img {
 	width: 80px;
 	height: 80px;
-	border-radius: 50%;
+	border-radius: 9999999px;
 }
 
 .entry .middle {
@@ -34,6 +33,8 @@
 
 .entry .middle .title {
 	font-weight: bold;
+	overflow-y: auto;
+	display: flex;
 }
 
 .entry .right {

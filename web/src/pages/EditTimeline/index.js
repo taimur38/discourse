@@ -143,6 +143,8 @@ export default class EditTimeline extends React.Component {
 				timestamp: moment(entry.timestamp * 1000)
 			}
 		})
+
+		document.documentElement.scrollTo(0, 0)
 	}
 
 	onDelete = (entry) => {
@@ -158,7 +160,6 @@ export default class EditTimeline extends React.Component {
 		let entries = JSON.parse(JSON.stringify(this.state.timeline.entries))
 		delete entries[entry.id];
 
-		console.log(entries)
 		this.setState({
 			timeline: {
 				...this.state.timeline,
@@ -174,7 +175,6 @@ export default class EditTimeline extends React.Component {
 	}
 
 	render() {
-		console.log(this.state)
 
 		return <div className="create-timeline">
 			<Header user={current_user()} />

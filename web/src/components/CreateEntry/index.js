@@ -15,6 +15,19 @@ export default class CreateEntry extends React.Component {
 		this.props.update("timestamp", d);
 	}
 
+	onSourceAdd = () => {
+		this.props.update("sources", [...this.props.entry.sources, ""])
+	}
+
+	onSourceChange = (idx, e) => {
+	
+		let sources = this.props.entry.sources;
+
+		sources[idx] = e.target.value;
+
+		this.props.update("sources", sources)
+	}
+
 	render() {
 
 		const entry = this.props.entry;
@@ -25,6 +38,10 @@ export default class CreateEntry extends React.Component {
 				<div className="imgwrap">
 					<img src={entry.imgurl} alt="" />
 					<input type="text" className="" value={entry.imgurl} onChange={this.handleChange.bind(this, "imgurl")} />
+				</div>
+				<div className="sources">
+					{ entry.sources.map((s, i) => <Source url={s} onChange={this.onSourceChange.bind(this, i)} />) }
+					<div className="add-source save" onClick={this.onSourceAdd} onChange={this.onSourceChange.bind(this, entry.sources.length)}>Add</div>
 				</div>
 				<textarea type="text" className="body" value={entry.body} onChange={this.handleChange.bind(this, "body")} />
 				<DatePicker 
@@ -45,6 +62,6 @@ export default class CreateEntry extends React.Component {
 	}
 }
 
-const Source = ({url}) => {
-	return <a className="source" href={url}>{url}</a>
+const Source = ({url, onChange}) => {
+	return <input className="source" type="text" value={url} onChange={onChange} />
 }

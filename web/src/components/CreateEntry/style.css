@@ -1,6 +1,6 @@
 .create.entry {
 	padding: 10px 20px;
-	height: 400px;
+	height: 500px;
 	margin: 10px 0;
 
 	border: 1px solid slategrey;
@@ -41,6 +41,17 @@
 		width: 100%;
 		height: 1.6rem;
 		margin-left: 20px;
+	}
+
+	.create.entry .sources {
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+	}
+
+	.create.entry .sources input {
+		width: 100%;
+		margin: 15px 0;
 	}
 
 	.create.entry textarea {
