@@ -130,9 +130,24 @@ defmodule Discourse.Timeline.Entry do
 	# finds all entries for a timeline id, returns rows as [id, timeline, timestamp, body, sources, imgurl, upvotes, downvotes].
 	def from_timeline_id(id) do
 
-		case Postgrex.query(Discourse.DB, "SELECT id, timeline, extract(epoch from timestamp), title, body, sources, imgurl, upvotes, downvotes, author FROM TimelineEntries WHERE timeline=$1", [id]) do
+		case Postgrex.query(Discourse.DB, "
+		SELECT 
+			a.id,
+			a.timeline,
+			extract(epoch from a.timestamp),
+			a.title,
+			a.body,
+			a.sources,
+			a.imgurl,
+			a.upvotes,
+			a.downvotes,
+			a.author, 
+			count(b.id) as num_comments
+		FROM TimelineEntries a LEFT OUTER JOIN comments b ON a.id=b.parent_entry
+		WHERE timeline=$1
+		GROUP BY a.id", [id]) do
 			{:ok, resp} -> {:ok, resp.rows 
-				|> Enum.map(fn([entry_id, timeline, timestamp, title, body, sources, imgurl, upvotes, downvotes, author]) -> %{
+				|> Enum.map(fn([entry_id, timeline, timestamp, title, body, sources, imgurl, upvotes, downvotes, author, num_comments]) -> %{
 					id: entry_id,
 					timeline: timeline,
 					timestamp: timestamp,
@@ -142,6 +157,7 @@ defmodule Discourse.Timeline.Entry do
 					imgurl: imgurl,
 					upvotes: upvotes,
 					downvotes: downvotes,
+					num_comments: num_comments,
 					userid: author } end)}
 			{:error, err} -> {:error, %{code: err.postgres.code, message: err.postgres.detail}}
 		end

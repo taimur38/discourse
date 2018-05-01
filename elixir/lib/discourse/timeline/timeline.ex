@@ -43,7 +43,7 @@ defmodule Discourse.Timeline do
 	gets all relevant timeline info
 	"""
 	def from_id(id) do
-		case Postgrex.query(Discourse.DB, "SELECT title, author, username, published from timelines join users on timelines.author=users.id where timelines.id=$1", [id]) do
+		case Postgrex.query(Discourse.DB, "SELECT title, author, username, published FROM timelines JOIN users ON timelines.author=users.id WHERE timelines.id=$1", [id]) do
 			{:ok, %Postgrex.Result{num_rows: 0}} -> {:error, %{message: "Timeline not found"}}
 			{:ok, resp} -> 
 				[[title, author, username, published]] = resp.rows

@@ -1,10 +1,10 @@
 import React from 'react'
 import './style.css'
-import { Link } from 'react-router-dom'
+import { withRouter } from 'react-router-dom'
 
 import CommentImg from './comment.svg'
 
-export default class TimelineEntry extends React.Component {
+class TimelineEntry extends React.Component {
 
 	constructor(props) {
 		super(props);
@@ -17,12 +17,18 @@ export default class TimelineEntry extends React.Component {
 		this.setState({ expanded: !this.state.expanded })
 	}
 
+	onEntryClick = () => {
+
+		const {history, timeline, id} = this.props;
+		history.push(`/timeline/${timeline}/entry/${id}`)
+	}
+
 	render() {
 		// eslint-disable-next-line
-				//<img src={imgurl} alt=""/>
-		const {id, title, body, downvotes, imgurl, sources, timeline, timestamp, upvotes, userid} = this.props;
+		const {id, title, body, downvotes, imgurl, sources, timeline, timestamp, upvotes, userid, num_comments} = this.props;
 
-		return <div className={`entry ${this.state.expanded ? "expanded" : ""}`}>
+		//<Link to={`/timeline/${timeline}/entry/${id}`}>
+		return <div className={`entry ${this.state.expanded ? "expanded" : ""}`} onClick={this.onEntryClick}>
 			<div className="left">
 				<div className="img" style={{backgroundImage: `url(${imgurl})` }} />
 			</div>
@@ -30,17 +36,13 @@ export default class TimelineEntry extends React.Component {
 				<div className="title">{title}</div>
 			</div>
 			<div className="right">
-				<Link to={`/timeline/${timeline}/entry/${id}`}>
-					<img alt="comment" className="comment" src={CommentImg} />
-				</Link>
+				<div>
+					<div className="comment-img" style={{backgroundImage: `url(${CommentImg})`}} />
+					<div className="comment-num">{num_comments}</div>
+				</div>
 			</div>
 		</div>
 	}
 }
 
-/*
-const Source = ({url}) => {
-	const domain = new URL(url).hostname;
-	return <a className="source" href={url}>{domain}</a>
-}
-*/
+export default withRouter(TimelineEntry)

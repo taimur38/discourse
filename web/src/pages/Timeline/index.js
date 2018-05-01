@@ -71,7 +71,7 @@ export default class Timeline extends Component {
 			<div className="entries">
 			{
 				this.state.timeline.gapline
-					.map(e => <div className="entry-wrapper" key={e.id} style={{ height: `${e.diff}px` }}>
+					.map((e, idx) => <div className="entry-wrapper" key={e.id} style={{ height: `${e.diff}px` }}>
 							<div className="date">{e.timestamp ? new Date(e.timestamp * 1000).toLocaleDateString() : false}</div>
 							{ e.gap ? <div className={`v-line ${e.outlier ? "outlier" : ""}`} /> : false }
 							{ e.gap ? false: <TimelineEntry {...e} /> }
