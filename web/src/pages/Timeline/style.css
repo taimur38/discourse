@@ -35,6 +35,10 @@
 	line-height: 0;
 }
 
+	.entry-wrapper:first-child .date {
+		border-left: none;
+	}
+
 @media (min-width: 600px)
 {
 	.timeline .entry-wrapper {
