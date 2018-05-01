@@ -19,11 +19,12 @@ export default class TimelineEntry extends React.Component {
 
 	render() {
 		// eslint-disable-next-line
+				//<img src={imgurl} alt=""/>
 		const {id, title, body, downvotes, imgurl, sources, timeline, timestamp, upvotes, userid} = this.props;
 
 		return <div className={`entry ${this.state.expanded ? "expanded" : ""}`}>
 			<div className="left">
-				<img src={imgurl} alt=""/>
+				<div className="img" style={{backgroundImage: `url(${imgurl})` }} />
 			</div>
 			<div className="middle">
 				<div className="title">{title}</div>
