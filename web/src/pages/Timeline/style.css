@@ -25,17 +25,18 @@
 
 .entry-wrapper .date {
 	font-size: .8rem;
-	text-align: center;
+	text-align: left;
 	padding: 5px 0;
+	padding-left: 55px;
 	margin-left: 35px;
-	width: calc(100% - 35px);
-	min-width: 80px;
+	width: calc(100% - 96px);
 	display: block;
 	border-left: 6px solid tomato;
 	line-height: 0;
 }
 
 	.entry-wrapper:first-child .date {
+		padding-left: 61px;
 		border-left: none;
 	}
 
@@ -56,7 +57,7 @@
 		text-align: right;
 		width: 80px;
 		min-width: 80px;
-		padding: 0;
+		padding: 0!important;
 		margin: 0;
 		margin-right: 15px;
 		display: block;
