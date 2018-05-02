@@ -36,7 +36,7 @@ defmodule Discourse.Timeline.Entry do
 
 		case Postgrex.query(
 			Discourse.DB,
-			"SELECT a.id, a.title, a.body, a.sources, a.author, a.imgurl, a.timestamp, a.timeline, a.upvotes, a.downvotes, 
+			"SELECT a.id, a.title, a.body, a.sources, a.author, a.imgurl, extract(epoch from a.timestamp), a.timeline, a.upvotes, a.downvotes, 
 			b.uid, b.username, b.body, extract(epoch from b.timestamp), b.path, b.id
 			FROM TimelineEntries a LEFT OUTER JOIN Comments b ON a.id=b.parent_entry
 			WHERE a.id=$1 AND a.timeline=$2",
