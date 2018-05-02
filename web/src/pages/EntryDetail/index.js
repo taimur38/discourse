@@ -129,11 +129,11 @@ export default class EntryDetail extends Component {
 			<Header user={current_user()} />
 
 			<div className="entry-detail">
-				<div className="date">{new Date(entry.timestamp * 1000).toLocaleDateString()}</div>
 				<div className="top">
 					<img src={entry.imgurl} alt="" />
 					<div className="title">{entry.title}</div>
 				</div>
+				<div className="date">{new Date(entry.timestamp * 1000).toLocaleDateString()}</div>
 				<div className="body">{entry.body}</div>
 				<div className="sources">
 					{entry.sources.map(s => <Source key={s} url={s} />)}
