@@ -122,11 +122,14 @@ export default class EntryDetail extends Component {
 
 		const entry = this.state.entry;
 
+		console.log(entry.timestamp)
+
 		// create path
 		return <div className="entry-detail-page">
 			<Header user={current_user()} />
 
 			<div className="entry-detail">
+				<div className="date">{new Date(entry.timestamp * 1000).toLocaleDateString()}</div>
 				<div className="top">
 					<img src={entry.imgurl} alt="" />
 					<div className="title">{entry.title}</div>

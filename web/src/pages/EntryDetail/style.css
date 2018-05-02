@@ -25,6 +25,10 @@
 		margin: 10px 0;
 	}
 
+	.entry-detail .date {
+		text-align: center;
+	}
+
 	.entry-detail .top .title {
 		width: calc(100% - 80px);
 		text-align: center;
