@@ -16,6 +16,12 @@
 	width: 80px;
 }
 
+a.entry-wrapper-link {
+	width: 100%;
+	color: inherit;
+	text-decoration: none;
+}
+
 .entry .left .img {
 	padding-bottom: 100%;
 	background-size: cover;

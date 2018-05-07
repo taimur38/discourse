@@ -1,6 +1,6 @@
 import React from 'react'
 import './style.css'
-import { withRouter } from 'react-router-dom'
+import { withRouter, Link } from 'react-router-dom'
 
 import CommentImg from './comment.svg'
 
@@ -11,6 +11,7 @@ class TimelineEntry extends React.Component {
 		this.state = {
 			expanded: false
 		}
+		this.entry_elem = React.createRef();
 	}
 
 	toggleExpand = () => {
@@ -20,7 +21,9 @@ class TimelineEntry extends React.Component {
 	onEntryClick = () => {
 
 		const {history, timeline, id} = this.props;
-		history.push(`/timeline/${timeline}/entry/${id}`)
+		console.log(history)
+		console.log("scroll", document.body.offsetHeight)
+		history.push(`/timeline/${timeline}/entry/${id}`, { position: document.body.offsetHeight })
 	}
 
 	render() {
@@ -28,7 +31,9 @@ class TimelineEntry extends React.Component {
 		const {id, title, body, downvotes, imgurl, sources, timeline, timestamp, upvotes, userid, num_comments} = this.props;
 
 		//<Link to={`/timeline/${timeline}/entry/${id}`}>
-		return <div className={`entry ${this.state.expanded ? "expanded" : ""}`} onClick={this.onEntryClick}>
+		// onClick={this.onEntryClick}
+		return <Link to={`/timeline/${timeline}/entry/${id}`} className="entry-wrapper-link" target="_blank">
+		<div className={`entry ${this.state.expanded ? "expanded" : ""}`}  ref={this.entry_elem}>
 			<div className="left">
 				<div className="img" style={{backgroundImage: `url(${imgurl})` }} />
 			</div>
@@ -42,6 +47,7 @@ class TimelineEntry extends React.Component {
 				</div>
 			</div>
 		</div>
+		</Link>
 	}
 }
 
