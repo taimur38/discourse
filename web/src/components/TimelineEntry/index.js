@@ -32,7 +32,7 @@ class TimelineEntry extends React.Component {
 
 		//<Link to={`/timeline/${timeline}/entry/${id}`}>
 		// onClick={this.onEntryClick}
-		return <Link to={`/timeline/${timeline}/entry/${id}`} className="entry-wrapper-link" target="_blank">
+		return <Link to={`/timeline/${timeline}/entry/${id}`} className="entry-wrapper-link">
 		<div className={`entry ${this.state.expanded ? "expanded" : ""}`}  ref={this.entry_elem}>
 			<div className="left">
 				<div className="img" style={{backgroundImage: `url(${imgurl})` }} />
