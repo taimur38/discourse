@@ -131,7 +131,7 @@ export default class EditTimeline extends React.Component {
 		this.setState({
 			timeline: {
 				...this.state.timeline,
-				publish: true
+				published: true
 			}
 		}, this.saveTimeline)
 	}
