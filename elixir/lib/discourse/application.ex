@@ -16,7 +16,8 @@ defmodule Discourse.Application do
 					hostname: "localhost",
 					username: "postgres",
 					password: "postgres",
-					database: "postgres" 
+					database: "postgres",
+					extensions: [ Postgrex.Extensions.JSON ] 
 			}
 		# Starts a worker by calling: Discourse.Worker.start_link(arg)
 		# {Discourse.Worker, arg},

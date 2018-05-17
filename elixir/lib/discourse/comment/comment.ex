@@ -4,15 +4,23 @@ defmodule Discourse.Comment do
 	"""
 
 	def create({ uid, username, body, parent_entry, nil}) do
-		write({uid, username, body, parent_entry, "/"})
+		{:ok, %Postgrex.Result{num_rows: 1, rows: [[target_id]]}} = Postgrex.query(Discourse.DB, "SELECT author FROM timelineentries WHERE id=$1", [parent_entry])
+
+		result = write({uid, username, body, parent_entry, "/"})
+
+		Discourse.Notification.EntryReply({ target_id, parent_entry, "#{username} replied to your timeline entry"})
 	end
 	
 	# set time in db maybe
 	def create({ user_id, username, body, parent_entry, parent_comment }) do
 
-		{:ok, %Postgrex.Result{num_rows: 1, rows: [[path]]}} = Postgrex.query(Discourse.DB, "SELECT path FROM Comments WHERE id=$1", [parent_comment])
+		{:ok, %Postgrex.Result{num_rows: 1, rows: [[path, target_id]]}} = Postgrex.query(Discourse.DB, "SELECT path, uid FROM Comments WHERE id=$1", [parent_comment])
 
-		write({user_id, username, body, parent_entry, "#{path}/#{parent_comment}"})
+		result = write({user_id, username, body, parent_entry, "#{path}/#{parent_comment}"})
+
+		Discourse.Notification.CommentReply({target_id, parent_comment, parent_entry, "#{username} replied to your comment"})
+
+		result
 	end
 
 	defp write({user_id, username, body, parent_entry, path} = args) do 
