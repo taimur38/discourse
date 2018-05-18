@@ -8,7 +8,8 @@ defmodule Discourse.Comment do
 
 		result = write({uid, username, body, parent_entry, "/"})
 
-		if uid != target_id, do: Discourse.Notification.entry_reply({ target_id, parent_entry, "#{username} replied to your timeline entry"})
+		#if uid != target_id, do: Discourse.Notification.entry_reply({ target_id, parent_entry, "#{username} replied to your timeline entry"})
+		Discourse.Notification.entry_reply({ target_id, parent_entry, "#{username} replied to your timeline entry"})
 
 		result
 	end
@@ -20,7 +21,8 @@ defmodule Discourse.Comment do
 
 		result = write({user_id, username, body, parent_entry, "#{path}/#{parent_comment}"})
 
-		if user_id != target_id, do: Discourse.Notification.comment_reply({target_id, parent_comment, parent_entry, "#{username} replied to your comment"})
+		# if user_id != target_id, do: Discourse.Notification.comment_reply({target_id, parent_comment, parent_entry, "#{username} replied to your comment"})
+		Discourse.Notification.comment_reply({target_id, parent_entry, "#{username} replied to your comment"})
 
 		result
 	end

@@ -9,8 +9,6 @@ defmodule Discourse.Application do
 		import Supervisor.Spec, warn: false
 		# List all child processes to be supervised
 
-		Postgrex.Types.define(Discourse.PostgrexTypes, [], json: Poison)
-
 		children = [
 			worker(Discourse.Server, [%{}]),
 			{ 
