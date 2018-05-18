@@ -85,7 +85,7 @@ defmodule Discourse.Timeline do
 								username: username
 							}
 						} end)}
-				{:error, err} -> {:error, %{code: err.postgres.code, message: err.postgres.detail }}
+				{:error, err} -> {:error, %{code: err.postgres.code, message: err.postgres.detail}}
 		end
 	end
 

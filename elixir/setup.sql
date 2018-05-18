@@ -62,11 +62,10 @@ CREATE TABLE Notifications (
 	uid int references users(id) NOT NULL,
 	type int NOT NULL,
 	target_id int NOT NULL,
-	parent_type int,
-	parent_id int,
 	timestamp timestamptz NOT NULL,
 	title text NOT NULL,
 	read boolean DEFAULT FALSE,
+	parent_id int,
 	meta json
 );
 

@@ -81,6 +81,23 @@ defmodule Discourse.Server do
 		end
 	end
 
+	# endpoint for getting user notifications
+	def handle_request(%{method: :POST, path: ["api", "user", "notifications"], body: body}, _) do
+		payload = Poison.decode!(body, [keys: :atoms])
+
+		case payload do
+			%{token: token, username: username} ->
+				{:ok, [uid | _]} = Discourse.User.from_token({username, token})
+				case Discourse.Notification.for_user({uid}) do
+					{:ok, notifs} -> success(notifs)
+					{:error, err} -> failed(err)
+				end
+			other -> 
+				IO.inspect other
+				failed("missing required fields")
+		end
+	end
+
 	# endpoint for landing page
 	def handle_request(%{method: :GET, path: ["api", "timelines", "recent"]}, _) do
 		case Discourse.Timeline.recent(5) do
@@ -111,7 +128,6 @@ defmodule Discourse.Server do
 
 	# endpoint for getting timeline entries
 	def handle_request(%{method: :GET, path: ["api", "timeline", id, "entries"]}, _) do
-
 		{parsed_id, _} = Integer.parse(id)
 		case Discourse.Timeline.Entry.from_timeline_id(parsed_id) do
 			{:ok, entries} -> 
@@ -121,6 +137,7 @@ defmodule Discourse.Server do
 			{:error, err} ->failed(err)
 		end
 	end
+
 
 	# endpoint for getting timeline entry details and comments
 	def handle_request(%{method: :GET, path: ["api", "timeline", timeline_id, "entry", entry_id]}, _) do
@@ -183,6 +200,7 @@ defmodule Discourse.Server do
 			_ -> failed("missing required fields")
 		end
 	end
+
 
 	# endpoint for creating or updating a timeline entry
 	def handle_request(%{method: :POST, path: ["api", "timeline", "entry"], body: post_body}, _) do

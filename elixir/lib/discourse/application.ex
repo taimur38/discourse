@@ -8,6 +8,9 @@ defmodule Discourse.Application do
 	def start(_type, _args) do
 		import Supervisor.Spec, warn: false
 		# List all child processes to be supervised
+
+		Postgrex.Types.define(Discourse.PostgrexTypes, [], json: Poison)
+
 		children = [
 			worker(Discourse.Server, [%{}]),
 			{ 
@@ -17,7 +20,7 @@ defmodule Discourse.Application do
 					username: "postgres",
 					password: "postgres",
 					database: "postgres",
-					extensions: [ Postgrex.Extensions.JSON ] 
+					types: Discourse.PostgrexTypes
 			}
 		# Starts a worker by calling: Discourse.Worker.start_link(arg)
 		# {Discourse.Worker, arg},
