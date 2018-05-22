@@ -74,7 +74,8 @@ export default class EntryDetail extends Component {
 		post("/comment", {
 			body: this.state.comment_replies[parent_comment].body,
 			parent_entry: parseInt(this.props.match.params.entry_id, 10),
-			parent_comment: parent_comment
+			parent_comment: parent_comment,
+			timeline: parseInt(this.props.match.params.timeline_id, 10)
 		}, true)
 		.then(res => {
 			const keys = res.path.split('/')

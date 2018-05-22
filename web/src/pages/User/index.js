@@ -51,7 +51,7 @@ class User extends React.Component {
 				<div className="create-new" onClick={this.onCreate}>Create New Timeline</div>
 				{
 					this.state.timelines
-						.filter(tl => current_user() && current_user().username == tl.author.username ? true : tl.published)
+						.filter(tl => current_user() && current_user().username === tl.author.username ? true : tl.published)
 						.map(tl => TimelineStub(tl))
 				}
 			</div>

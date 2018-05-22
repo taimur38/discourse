@@ -98,6 +98,22 @@ defmodule Discourse.Server do
 		end
 	end
 
+	# endpoint for marking notification as read
+	def handle_request(%{method: :POST, path: ["api", "user", "notifications", "read"], body: body}, _) do
+
+		payload = Poison.decode!(body, [keys: :atoms])
+
+		case payload do
+			%{id: notif_id, token: token, username: username} ->
+				{:ok, _} = Discourse.User.from_token({username, token})
+				case Discourse.Notification.mark_read(notif_id) do
+					{:ok, _} -> success(%{})
+					{:error, err} -> failed(err)
+				end
+			other -> failed("Missing required fields")
+		end
+	end
+
 	# endpoint for landing page
 	def handle_request(%{method: :GET, path: ["api", "timelines", "recent"]}, _) do
 		case Discourse.Timeline.recent(5) do
@@ -158,9 +174,9 @@ defmodule Discourse.Server do
 		padded = Map.merge(%{parent_comment: nil}, payload)
 
 		case padded do
-			%{token: token, username: username, body: body, parent_entry: parent_entry, parent_comment: parent_comment} -> 
+			%{token: token, username: username, body: body, parent_entry: parent_entry, parent_comment: parent_comment, timeline: timeline} -> 
 				{:ok, [uid | _]} = Discourse.User.from_token({username, token})
-				case Discourse.Comment.create({uid, username, body, parent_entry, parent_comment}) do 
+				case Discourse.Comment.create({uid, username, body, parent_entry, parent_comment, timeline}) do 
 					{:ok, comment} -> success(comment)
 					{:error, err} -> failed(err)
 				end

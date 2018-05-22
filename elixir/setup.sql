@@ -52,6 +52,7 @@ CREATE TABLE Comments (
 	body text not null,
 	timestamp timestamptz NOT NULL,
 	parent_entry int references TimelineEntries(id) NOT NULL,
+	parent_timeline int references Timelines(id) NOT NULL,
 	path text
 );
 
@@ -66,7 +67,7 @@ CREATE TABLE Notifications (
 	title text NOT NULL,
 	read boolean DEFAULT FALSE,
 	parent_id int,
-	meta json
+	meta jsonb
 );
 
 create index on Notifications(uid);

@@ -1,0 +1,26 @@
+
+.notification {
+	display: flex;
+	height: 2rem;
+	width: calc(100% - 20px);
+	align-items: center;
+	justify-content: center;
+	padding: 10px;
+	flex-wrap: wrap;
+	border-radius: 4px;
+	cursor: pointer;
+}
+
+.notification:hover {
+	color: tomato;
+}
+
+.notification a {
+	text-decoration: none;
+	color: inherit;
+}
+
+.notification.unread {
+	background-color: steelblue;
+	color: white;
+}
