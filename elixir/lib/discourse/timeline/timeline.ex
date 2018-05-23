@@ -21,8 +21,9 @@ defmodule Discourse.Timeline do
 	edits timeline
 	"""
 	def edit({ id, title, published, uid }) do
-		case Postgrex.query(Discourse.DB, "UPDATE timelines SET title=$1, published=$2 WHERE id=$3 AND editors @> $4", [title, published, id, [uid]]) do
-			{:ok, resp} -> {:ok}
+		case Postgrex.query(Discourse.DB, "UPDATE timelines SET title=$1 WHERE id=$3 AND editors @> $4 RETURNING id", [title, id, [uid]]) do
+			{:ok, %Postgrex.Result{num_rows: 1}} -> {:ok}
+			{:ok, %Postgrex.Result{num_rows: 0}} -> {:error, %{message: "timeline not found"}}
 			{:error, err} -> {:error, %{code: err.postgres.code, message: err.postgres.detail}}
 		end
 	end
