@@ -209,7 +209,7 @@ defmodule Discourse.Server do
 		case payload do
 			%{ id: id, title: title, published: published, username: username, token: token } -> 
 				{:ok, [uid | _]} = Discourse.User.from_token({username, token})
-				case Discourse.Timeline.edit({ id, title, published }) do
+				case Discourse.Timeline.edit({ id, title, published, uid }) do
 					{:ok } -> success(%{id: id, title: title, published: published, author: uid})
 					{:error, err} -> failed(err)
 				end
@@ -226,6 +226,8 @@ defmodule Discourse.Server do
 
 			%{id: id, title: title, body: body, sources: sources, imgurl: imgurl, timeline: timeline, timestamp: ts, token: token, username: username} ->
 				{:ok, [uid | _]} = Discourse.User.from_token({username, token})
+				{:ok, true} = Discourse.Timeline.is_editor({uid, timeline})
+
 				case Discourse.Timeline.Entry.update({id, timeline, ts, title, body, sources, imgurl, uid}) do
 					{:ok, entry} -> success(entry)
 					{:error, err} -> failed(err)
@@ -233,6 +235,8 @@ defmodule Discourse.Server do
 
 			%{title: title, body: body, sources: sources, imgurl: imgurl, timeline: timeline, timestamp: ts, token: token, username: username} ->
 				{:ok, [uid | _]} = Discourse.User.from_token({username, token})
+				{:ok, true} = Discourse.Timeline.is_editor({uid, timeline})
+
 				case Discourse.Timeline.Entry.create({timeline, ts, title, body, sources, imgurl, uid}) do
 					{:ok, entry} -> success(entry)
 					{:error, err} -> failed(err)
@@ -245,13 +249,16 @@ defmodule Discourse.Server do
 		end
 	end
 
-	def handle_request(%{method: :POST, path: ["api", "timeline", "entry", id, "delete"], body: post_body }, _) do
+	def handle_request(%{method: :POST, path: ["api", "timeline", timeline, "entry", id, "delete"], body: post_body }, _) do
 		payload = Poison.decode!(post_body, [keys: :atoms])
 
 		{parsed_id, _} = Integer.parse(id)
+		{timeline_id, _} = Integer.parse(timeline)
 		case payload do
 			%{token: token, username: username} -> 
 				{:ok, [uid | _]} = Discourse.User.from_token({username, token})
+				{:ok, true} = Discourse.Timeline.is_editor({uid, timeline_id})
+
 				case Discourse.Timeline.Entry.delete({parsed_id, uid}) do
 					{:ok} -> success(%{})
 					{:error, err} -> failed(err)

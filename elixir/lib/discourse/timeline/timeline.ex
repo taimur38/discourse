@@ -8,7 +8,7 @@ defmodule Discourse.Timeline do
 	"""
 	def create({ title, uid }) do
 
-		case Postgrex.query(Discourse.DB, "INSERT INTO timelines (title, author) VALUES ($1, $2) RETURNING id", [title, uid]) do
+		case Postgrex.query(Discourse.DB, "INSERT INTO timelines (title, author, editors) VALUES ($1, $2, $3) RETURNING id", [title, uid, [uid]]) do
 			{:ok, resp} -> 
 				[[timeline_id]] = resp.rows
 				{:ok, timeline_id}
@@ -20,8 +20,8 @@ defmodule Discourse.Timeline do
 	@doc """
 	edits timeline
 	"""
-	def edit({ id, title, published }) do
-		case Postgrex.query(Discourse.DB, "UPDATE timelines SET title=$1, published=$2 WHERE id=$3", [title, published, id]) do
+	def edit({ id, title, published, uid }) do
+		case Postgrex.query(Discourse.DB, "UPDATE timelines SET title=$1, published=$2 WHERE id=$3 AND editors @> $4", [title, published, id, [uid]]) do
 			{:ok, resp} -> {:ok}
 			{:error, err} -> {:error, %{code: err.postgres.code, message: err.postgres.detail}}
 		end
@@ -36,7 +36,16 @@ defmodule Discourse.Timeline do
 			{:ok, resp} -> {:ok, resp.rows}
 			{:error, err} -> {:error, %{code: err.postgres.code, message: err.postgres.detail}}
 		end
+	end
 
+	def is_editor({uid, timeline_id}) do
+
+		case Postgrex.query(Discourse.DB, "select editors @> $1 from timelines where id=$2", [[uid], timeline_id]) do
+			{:ok, resp} -> 
+				[[val]] = resp.rows
+				{:ok, val}
+			{:error, err} -> {:error, %{code: err.postgres.code, message: err.postgres.detail}}
+		end
 	end
 
 	@doc """
@@ -97,7 +106,7 @@ defmodule Discourse.Timeline do
 		case Postgrex.query(
 			Discourse.DB,
 			"SELECT users.id, timelines.id, timelines.title, extract(epoch from timelines.created_at), timelines.published
-			FROM users JOIN timelines on users.id = timelines.author 
+			FROM users JOIN (select *, unnest(editors) from timelines) timelines on users.id = timelines.unnest
 			WHERE users.username=$1", [username]) do
 				{:ok, resp} -> {:ok, resp.rows
 					|> Enum.map(fn([uid, timeline, title, created, published]) -> %{

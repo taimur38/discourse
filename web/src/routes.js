@@ -11,7 +11,6 @@ import User from './pages/User'
 import Timeline from './pages/Timeline'
 import EditTimeline from './pages/EditTimeline'
 import EntryDetail from './pages/EntryDetail'
-import Notifications from './pages/Notifications'
 
 export default (props) => (
 	<BrowserRouter>
@@ -22,7 +21,6 @@ export default (props) => (
 			<Route path="/timeline/:timeline_id/entry/:entry_id" component={EntryDetail} />
 			<Route path="/timeline/:id" component={Timeline} />
 			<Route path="/user/:username" component={User} />
-			<Route path="/notifications" component={Notifications} />
 
 
 			<Route path="/signup" component={Signup} />

@@ -99,8 +99,8 @@ defmodule Discourse.Timeline.Entry do
 
 		case Postgrex.query(
 			Discourse.DB, 
-			"UPDATE TimelineEntries SET timeline=$1, timestamp=$2, title=$3, body=$4, sources=$5, imgurl=$6 WHERE id=$7 AND author=$8",
-			[timeline_id, dt, title, body, sources, imgurl, id, uid]) do
+			"UPDATE TimelineEntries SET timeline=$1, timestamp=$2, title=$3, body=$4, sources=$5, imgurl=$6 WHERE id=$7",
+			[timeline_id, dt, title, body, sources, imgurl, id]) do
 				{:ok, resp} -> {:ok, %{
 					id: id,
 					timeline: timeline_id,
