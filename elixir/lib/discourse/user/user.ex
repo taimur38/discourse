@@ -45,6 +45,23 @@ defmodule Discourse.User do
 	end
 
 	@doc """
+	searches user for autocomplete
+	"""
+	def lookup(username_prefix) do
+
+		case Postgrex.query(
+			Discourse.DB, 
+			"SELECT id, uesrname FROM users WHERE username LIKE '$1%'",
+			[username_prefix]) do
+				{:ok, resp} -> {:ok, resp.rows
+						|> Enum.map(fn([id, username]) -> %{
+							id: id, username: username
+						} end )}
+				{:error, err} -> {:error, %{code: err.postgres.code, message: err.postgres.detail}}
+			end
+	end
+
+	@doc """
 	saves token, outputs standard error format
 	"""
 	def save_token({uid, username, token}) do 

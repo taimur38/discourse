@@ -23,7 +23,29 @@ defmodule Discourse.Timeline do
 	def edit({ id, title, published, uid }) do
 		case Postgrex.query(Discourse.DB, "UPDATE timelines SET title=$1 WHERE id=$3 AND editors @> $4 RETURNING id", [title, id, [uid]]) do
 			{:ok, %Postgrex.Result{num_rows: 1}} -> {:ok}
-			{:ok, %Postgrex.Result{num_rows: 0}} -> {:error, %{message: "timeline not found"}}
+			{:ok, %Postgrex.Result{num_rows: 0}} -> {:error, %{message: "You don't have permission to edit this timeline"}}
+			{:error, err} -> {:error, %{code: err.postgres.code, message: err.postgres.detail}}
+		end
+	end
+
+	@doc """
+	Add a member to the editors list
+	"""
+	def add_editor({ id, uid, new_editor }) do
+		case Postgrex.query(Discourse.DB, "UPDATE timelines SET editors=array_append(editors, $1) WHERE id=$2 AND editors @> $3 AND NOT editors @> $4RETURNING editors", [new_editor, id, [uid], [new_editor]]) do
+			{:ok, %Postgrex.Result{num_rows: 1, rows: [[editors]]}} -> {:ok, %{ editors: editors}}
+			{:ok, other} -> {:error, %{message: "You don't have permission to edit this timeline"}}
+			{:error, err} -> {:error, %{code: err.postgres.code, message: err.postgres.detail}}
+		end
+	end
+
+	@doc """
+	Remove member from editors list. The author cannot be removed
+	"""
+	def remove_editor({ id, uid, remove_editor }) do
+		case Postgrex.query(Discourse.DB, "UPDATE timelines SET editors=array_remove(editors, $1) WHERE id=$2 AND editors @> $3 AND NOT author=$4  RETURNING editors", [remove_editor, id, [uid], [remove_editor], uid]) do
+			{:ok, %Postgrex.Result{num_rows: 1, rows: [[editors]]}} -> {:ok, %{ editors: editors}}
+			{:ok, other} -> {:error, %{message: "You Don't have permission to edit this timeline"}}
 			{:error, err} -> {:error, %{code: err.postgres.code, message: err.postgres.detail}}
 		end
 	end
@@ -53,18 +75,33 @@ defmodule Discourse.Timeline do
 	gets all relevant timeline info
 	"""
 	def from_id(id) do
-		case Postgrex.query(Discourse.DB, "SELECT title, author, username, published FROM timelines JOIN users ON timelines.author=users.id WHERE timelines.id=$1", [id]) do
+		case Postgrex.query(
+			Discourse.DB,
+			"SELECT title, author, users.id, username, published
+			FROM (SELECT *, unnest(editors) FROM timelines WHERE id=$1) timelines JOIN users ON timelines.unnest=users.id
+			", [id]) do
 			{:ok, %Postgrex.Result{num_rows: 0}} -> {:error, %{message: "Timeline not found"}}
 			{:ok, resp} -> 
-				[[title, author, username, published]] = resp.rows
+				the_timeline = resp.rows
+				|> Enum.reduce(%{}, fn([title, author_id, user_id, username, published], timeline_struct) -> 
+
+					case timeline_struct do
+						%{id: id, title: title, published: published, author: author_map, editors: editors_list} -> 
+							%{ timeline_struct | editors: [%{id: user_id, username: username} | editors_list]}
+						other -> 
+							timeline_struct = %{id: id, title: title, published: published }
+							if author_id == user_id do
+								timeline_struct
+								|> Map.put(:author, %{id: user_id, username: username})
+								|> Map.put(:editors, [%{id: user_id, username: username} | Map.get(other, :editors, [])])
+							else
+								%{timeline_struct | editors: [%{id: user_id, username: username} | Map.get(other, :editors, [])]}
+							end
+					end
+				end)
+
 				case Discourse.Timeline.Entry.from_timeline_id(id) do
-					{:ok, rows} -> {:ok, %{
-						id: id,
-						title: title,
-						published: published,
-						userid: author,
-						username: username,
-						entries: rows }}
+					{:ok, rows} -> {:ok, Map.put(the_timeline, :entries, rows)}
 					{:error, err} -> {:error, err}
 				end
 			

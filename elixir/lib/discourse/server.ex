@@ -81,6 +81,22 @@ defmodule Discourse.Server do
 		end
 	end
 
+	# endpoint for looking up users
+	# can only do if authenticated
+	def handle_request(%{method: :POST, path: ["api", "user", "lookup", prefix], body: body}, _) do
+		payload = Poison.decode!(body, [keys: :atoms])
+
+		case payload do
+			%{token: token, username: username} ->
+				{:ok, [uid | _]} = Discourse.User.from_token({username, token})
+				case Discourse.User.lookup(prefix) do
+					{:ok, users} -> success(users)
+					{:error, err} -> failed(err)
+				end
+		end
+
+	end
+
 	# endpoint for getting user notifications
 	def handle_request(%{method: :POST, path: ["api", "user", "notifications"], body: body}, _) do
 		payload = Poison.decode!(body, [keys: :atoms])

@@ -46,7 +46,7 @@ export default class EditTimeline extends React.Component {
 
 		get(`/timeline/${id}`)
 			.then(timeline => {
-				if(!is_owner(timeline.userid)) {
+				if(!is_owner(timeline.author.id)) {
 					alert("hey, this isn't your timeline")
 				}
 				else {
@@ -183,6 +183,8 @@ export default class EditTimeline extends React.Component {
 
 				<div className="under-title">
 					{ !this.state.timeline.published ? <div className="publish" onClick={this.publish}>Publish</div> : <div>This timeline is published publicly</div>}
+				</div>
+				<div className="editors">
 				</div>
 				<div className="explainer">Enter your Timeline Entries below</div>
 				{ this.state.saving ? <div>Saving....</div> : <CreateEntry save={this.onSave} update={this.onUpdate} entry={this.state.editEntry} cancel={this.onCancel} /> }
