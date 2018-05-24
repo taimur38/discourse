@@ -51,13 +51,16 @@ defmodule Discourse.User do
 
 		case Postgrex.query(
 			Discourse.DB, 
-			"SELECT id, uesrname FROM users WHERE username LIKE '$1%'",
+			"SELECT id, username FROM users WHERE username LIKE $1 || '%'",
 			[username_prefix]) do
 				{:ok, resp} -> {:ok, resp.rows
 						|> Enum.map(fn([id, username]) -> %{
 							id: id, username: username
 						} end )}
-				{:error, err} -> {:error, %{code: err.postgres.code, message: err.postgres.detail}}
+				{:error, err} -> 
+					IO.inspect err
+					# {:error, %{code: err.postgres.code, message: err.postgres.detail}}
+					{:error, %{code: err.postgres.code, message: "err"}}
 			end
 	end
 

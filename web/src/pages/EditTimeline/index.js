@@ -5,10 +5,9 @@ import CreateEntry from '../../components/CreateEntry'
 import TimelineEntry from '../../components/TimelineEntry'
 
 import moment from 'moment'
-
 import debounce from 'debounce'
 
-import { current_user, is_owner, get, post } from '../../lib'
+import { current_user, is_owner, get, post, UserLink } from '../../lib'
 
 import './style.css'
 
@@ -30,10 +29,16 @@ export default class EditTimeline extends React.Component {
 			timeline: {
 				title: "Timeline Title",
 				entries: {},
-				published: false
+				published: false,
+				author: { username: "", id: 0 },
+				editors: []
 			},
 			editEntry: emptyEntry,
-			saving: false
+			saving: false,
+			editorSearch: {
+				val: "",
+				potentialUsers: []
+			}
 		}
 	}
 
@@ -46,7 +51,7 @@ export default class EditTimeline extends React.Component {
 
 		get(`/timeline/${id}`)
 			.then(timeline => {
-				if(!is_owner(timeline.author.id)) {
+				if(!timeline.editors.some(x => current_user() && current_user().id == x.id)) {
 					alert("hey, this isn't your timeline")
 				}
 				else {
@@ -147,6 +152,53 @@ export default class EditTimeline extends React.Component {
 		document.documentElement.scrollTo(0, 0)
 	}
 
+	editorAdd = (event) => {
+		this.setState({
+			editorSearch: {
+				...this.state.editorSearch,
+				val: event.target.value
+			}
+		})
+
+		if(event.target.value.length > 0) {
+			this.searchUsers();
+		}
+	}
+
+	searchUsers = debounce(() => {
+		if(this.state.editorSearch.val.length == 0) {
+			return;
+		}
+
+		post(`/user/lookup/${this.state.editorSearch.val}`, {}, true)
+		.then(res => {
+			console.log(res)
+			this.setState({
+				editorSearch: {
+					...this.state.editorSearch,
+					potentialUsers: res
+				}
+			})
+		})
+		.catch(err => console.error(err))
+	})
+
+	searchClick = (user) => {
+		post(`/timeline/${this.state.timeline.id}/editor/add`, {editor_id: user.id}, true)
+		.then(res => {
+			console.log(res)
+			this.setState({ timeline: {
+				...this.state.timeline,
+				editors: res.editors
+			}})
+		})
+		.catch(err => console.error(err))
+	}
+
+	editorRemove = (user) => {
+		console.log(user)
+	}
+
 	onDelete = (entry) => {
 
 		/* bug report
@@ -179,12 +231,27 @@ export default class EditTimeline extends React.Component {
 		return <div className="create-timeline">
 			<Header user={current_user()} />
 			<div className="content">
-				<input id="timeline_title" type="text" value={this.state.timeline.title} onChange={this.handleChange.bind(this, "title")}/>
+				<input id="timeline_title" type="text" value={this.state.timeline.title} onChange={this.handleChange.bind(this, "title")} />
 
 				<div className="under-title">
 					{ !this.state.timeline.published ? <div className="publish" onClick={this.publish}>Publish</div> : <div>This timeline is published publicly</div>}
 				</div>
 				<div className="editors">
+					<div className="editors-text">Timeline Editors:</div>
+					{ 
+						this.state.timeline.editors.map(u => <div className="editor" key={u.id}>
+							<UserLink username={u.username} />
+						</div>) 
+					}
+				</div>
+				<div className="editor-search">
+					<div className="editor-search-txt">Add Editor:</div>
+					<input type="text" className="add-editor" value={this.state.editorSearch.val} onChange={this.editorAdd} />
+				</div>
+				<div className="search-results">
+				{
+					this.state.editorSearch.potentialUsers.map(x => <div className="search-result" onClick={this.searchClick.bind(this, x)}>{x.username}</div>)
+				}
 				</div>
 				<div className="explainer">Enter your Timeline Entries below</div>
 				{ this.state.saving ? <div>Saving....</div> : <CreateEntry save={this.onSave} update={this.onUpdate} entry={this.state.editEntry} cancel={this.onCancel} /> }

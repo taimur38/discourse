@@ -19,6 +19,41 @@
 	margin: 20px 0;
 }
 
+.create-timeline .editors {
+	display: flex;
+	margin: 20px 0;
+}
+
+	.create-timeline .editors .editor {
+		margin-left: 15px;
+	}
+
+.create-timeline .editor-search {
+	display: flex;
+}
+	.create-timeline .editor-search .editor-search-txt {
+		margin-right: 15px;
+	}
+
+.create-timeline .search-results {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	margin-top: 5px;
+}
+
+
+	.create-timeline .search-results .search-result {
+		padding: 5px 0;
+		margin-left: 20px;
+		width: auto;
+		cursor: pointer;
+	}
+
+	.create-timeline .search-results .search-result:hover {
+		color: tomato;
+	}
+
 .create-timeline .under-title {
 	display: flex;
 }

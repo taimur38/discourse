@@ -158,6 +158,36 @@ defmodule Discourse.Server do
 		end
 	end
 
+	# add editor to timeline
+	def handle_request(%{method: :POST, path: ["api", "timeline", id, "editor", "add"], body: body}, _) do
+		{parsed_id, _} = Integer.parse(id)
+		payload = Poison.decode!(body, [keys: :atoms])
+		case payload do
+			%{token: token, username: username, editor_id: editor_id} -> 
+				{:ok, [uid | _]} = Discourse.User.from_token({username, token})
+				case Discourse.Timeline.add_editor({parsed_id, uid, editor_id}) do
+					{:ok, editors} -> success(editors)
+					{:error, err} -> failed(err)
+				end
+			other -> failed("missing required fields")
+		end
+	end
+
+	# remove editor from timeline
+	def handle_request(%{method: :POST, path: ["api", "timeline", id, "editor", "remove"], body: body}, _) do
+		{parsed_id, _} = Integer.parse(id)
+		payload = Poison.decode!(body, [keys: :atoms])
+		case payload do
+			%{token: token, username: username, editor_id: editor_id} -> 
+				{:ok, [uid | _]} = Discourse.User.from_token({username, token})
+				case Discourse.Timeline.remove_editor({parsed_id, uid, editor_id}) do
+					{:ok, editors} -> success(editors)
+					{:error, err} -> failed(err)
+				end
+			other -> failed("missing required fields")
+		end
+	end
+
 	# endpoint for getting timeline entries
 	def handle_request(%{method: :GET, path: ["api", "timeline", id, "entries"]}, _) do
 		{parsed_id, _} = Integer.parse(id)
