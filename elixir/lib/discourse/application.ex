@@ -14,7 +14,7 @@ defmodule Discourse.Application do
 			{ 
 				Postgrex,
 					name: Discourse.DB, 
-					hostname: "localhost",
+					hostname: "postgres",
 					username: "postgres",
 					password: "postgres",
 					database: "postgres",
