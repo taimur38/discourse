@@ -27,6 +27,7 @@ export default class EditTimeline extends React.Component {
 
 		this.state = {
 			timeline: {
+				id: -1,
 				title: "Timeline Title",
 				entries: {},
 				published: false,
@@ -36,6 +37,7 @@ export default class EditTimeline extends React.Component {
 			editEntry: emptyEntry,
 			saving: false,
 			editorSearch: {
+				active: false,
 				val: "",
 				potentialUsers: []
 			}
@@ -94,6 +96,23 @@ export default class EditTimeline extends React.Component {
 			}
 		})
 	}
+
+	onTagClose = (editor) => {
+		post(`/timeline/${this.state.timeline.id}/editor/remove`, {editor_id: editor.id}, true)
+			.then(resp => {
+				this.setState({
+					timeline: {
+						...this.state.timeline,
+						editors: resp.editors
+					} 
+				})
+			})
+			.catch(err => alert(err))
+
+		// remove from this.state.editors
+		// send request to removeEditors on server
+	}
+
 
 	// this deals with the save button
 	onSave = async () => {
@@ -239,9 +258,11 @@ export default class EditTimeline extends React.Component {
 				<div className="editors">
 					<div className="editors-text">Timeline Editors:</div>
 					{ 
-						this.state.timeline.editors.map(u => <div className="editor" key={u.id}>
-							<UserLink username={u.username} />
-						</div>) 
+						this.state.timeline.editors.map(u => <TagWrapper onClose={this.onTagClose.bind(this, u)}>
+							<div className="editor" key={u.id}>
+								<UserLink username={u.username} />
+							</div>
+						</TagWrapper>)
 					}
 				</div>
 				<div className="editor-search">
@@ -274,4 +295,9 @@ export default class EditTimeline extends React.Component {
 const Edit = ({ onEdit, onDelete }) => <div className="owner-wrap">
 	<div className="edit" onClick={onEdit} >Edit</div>
 	<div className="delete" onClick={onDelete} >Delete</div>
+</div>
+
+const TagWrapper = ({ children, onClose}) => <div className="tag">
+	{children}
+	<div className="closey" onClick={onClose}>x</div>
 </div>

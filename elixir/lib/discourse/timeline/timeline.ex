@@ -7,14 +7,12 @@ defmodule Discourse.Timeline do
 	inserts timeline into db. accepts {title, uid} returns generated ID
 	"""
 	def create({ title, uid }) do
-
 		case Postgrex.query(Discourse.DB, "INSERT INTO timelines (title, author, editors) VALUES ($1, $2, $3) RETURNING id", [title, uid, [uid]]) do
 			{:ok, resp} -> 
 				[[timeline_id]] = resp.rows
 				{:ok, timeline_id}
 			{:error, err} -> {:error, %{code: err.postgres.code, message: err.postgres.detail}}
 		end
-
 	end
 
 	@doc """
@@ -32,7 +30,7 @@ defmodule Discourse.Timeline do
 	Add a member to the editors list
 	"""
 	def add_editor({ id, uid, new_editor }) do
-		case Postgrex.query(Discourse.DB, "UPDATE timelines SET editors=array_append(editors, $1) WHERE id=$2 AND editors @> $3 AND NOT editors @> $4RETURNING editors", [new_editor, id, [uid], [new_editor]]) do
+		case Postgrex.query(Discourse.DB, "UPDATE timelines SET editors=array_append(editors, $1) WHERE id=$2 AND editors @> $3 AND NOT editors @> $4 RETURNING editors", [new_editor, id, [uid], [new_editor]]) do
 			{:ok, %Postgrex.Result{num_rows: 1, rows: [[editors]]}} -> {:ok, %{ editors: editors}}
 			{:ok, other} -> {:error, %{message: "You don't have permission to edit this timeline"}}
 			{:error, err} -> {:error, %{code: err.postgres.code, message: err.postgres.detail}}
@@ -43,7 +41,7 @@ defmodule Discourse.Timeline do
 	Remove member from editors list. The author cannot be removed
 	"""
 	def remove_editor({ id, uid, remove_editor }) do
-		case Postgrex.query(Discourse.DB, "UPDATE timelines SET editors=array_remove(editors, $1) WHERE id=$2 AND editors @> $3 AND NOT author=$4  RETURNING editors", [remove_editor, id, [uid], [remove_editor], uid]) do
+		case Postgrex.query(Discourse.DB, "UPDATE timelines SET editors=array_remove(editors, $1) WHERE id=$2 AND editors @> $3 AND NOT author=$1 RETURNING editors", [remove_editor, id, [uid]]) do
 			{:ok, %Postgrex.Result{num_rows: 1, rows: [[editors]]}} -> {:ok, %{ editors: editors}}
 			{:ok, other} -> {:error, %{message: "You Don't have permission to edit this timeline"}}
 			{:error, err} -> {:error, %{code: err.postgres.code, message: err.postgres.detail}}
@@ -54,7 +52,6 @@ defmodule Discourse.Timeline do
 	finds all timelines for a user id
 	"""
 	def from_userid(uid) do
-
 		case Postgrex.query(Discourse.DB, "SELECT id, title, author FROM timelines WHERE author=$1", [uid]) do
 			{:ok, resp} -> {:ok, resp.rows}
 			{:error, err} -> {:error, %{code: err.postgres.code, message: err.postgres.detail}}
@@ -62,7 +59,6 @@ defmodule Discourse.Timeline do
 	end
 
 	def is_editor({uid, timeline_id}) do
-
 		case Postgrex.query(Discourse.DB, "select editors @> $1 from timelines where id=$2", [[uid], timeline_id]) do
 			{:ok, resp} -> 
 				[[val]] = resp.rows
@@ -140,7 +136,6 @@ defmodule Discourse.Timeline do
 	finds all timelines for a username
 	"""
 	def from_username(username) do
-		
 		case Postgrex.query(
 			Discourse.DB,
 			"SELECT users.id, timelines.id, timelines.title, extract(epoch from timelines.created_at), timelines.published

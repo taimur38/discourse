@@ -1,9 +1,9 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 
-const baseUrl = "https://discourse-backend.metal.fish/api"
+//const baseUrl = "https://discourse-backend.metal.fish/api"
 //const baseUrl = "http://192.168.0.27:8080/api"
-//const baseUrl = "http://192.168.0.98:8080/api"
+const baseUrl = "http://192.168.0.98:8080/api"
 //const baseUrl = "http://192.168.1.115:8080/api"
 //const baseUrl = "http://172.31.99.232:8080/api"
 //const baseUrl = "http://localhost:8080/api"
