@@ -68,7 +68,7 @@ export default class EntryDetail extends Component {
 	}
 
 	onCommentSave = (...args) => {
-		const parent_path = args[args.length - 2]
+		//const parent_path = args[args.length - 2]
 		const parent_comment = args[args.length - 3]
 
 		post("/comment", {

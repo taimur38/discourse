@@ -5,7 +5,7 @@ import * as lib from '../../lib'
 
 import './style.css'
 
-export default Notification = ({notif}) => {
+export default ({notif}) => {
 
 	if(notif.type == "CommentReply") {
 		return <CommentNotif notif={notif} />
@@ -14,6 +14,8 @@ export default Notification = ({notif}) => {
 	if(notif.type == "EntryReply") {
 		return <EntryNotif notif={notif} />
 	}
+
+	return <div>Error</div>
 }
 
 const CommentNotif = ({notif}) => {

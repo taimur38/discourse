@@ -83,7 +83,7 @@ export function localeGet(key) {
 }
 
 export function is_owner(uid) {
-	return current_user() && current_user().id == uid;
+	return current_user() && current_user().id === uid;
 }
 
 export function current_user() {
