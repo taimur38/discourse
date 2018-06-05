@@ -7,7 +7,7 @@ import TimelineEntry from '../../components/TimelineEntry'
 import moment from 'moment'
 import debounce from 'debounce'
 
-import { current_user, is_owner, get, post, UserLink } from '../../lib'
+import { current_user, get, post, UserLink } from '../../lib'
 
 import './style.css'
 
@@ -53,7 +53,7 @@ export default class EditTimeline extends React.Component {
 
 		get(`/timeline/${id}`)
 			.then(timeline => {
-				if(!timeline.editors.some(x => current_user() && current_user().id == x.id)) {
+				if(!timeline.editors.some(x => current_user() && current_user().id === x.id)) {
 					alert("hey, this isn't your timeline")
 				}
 				else {
@@ -185,7 +185,7 @@ export default class EditTimeline extends React.Component {
 	}
 
 	searchUsers = debounce(() => {
-		if(this.state.editorSearch.val.length == 0) {
+		if(this.state.editorSearch.val.length === 0) {
 			return;
 		}
 

@@ -79,7 +79,7 @@ export default class EntryDetail extends Component {
 		}, true)
 		.then(res => {
 			const keys = res.path.split('/')
-				.filter(x => x != "")
+				.filter(x => x !== "")
 				.reduce((agg, curr) => [...agg, curr, "replies"], []);
 
 			console.log(keys)

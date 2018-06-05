@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { Link } from 'react-router-dom'
 
 import * as lib from '../../lib'
@@ -7,11 +7,11 @@ import './style.css'
 
 export default ({notif}) => {
 
-	if(notif.type == "CommentReply") {
+	if(notif.type === "CommentReply") {
 		return <CommentNotif notif={notif} />
 	}
 
-	if(notif.type == "EntryReply") {
+	if(notif.type === "EntryReply") {
 		return <EntryNotif notif={notif} />
 	}
 

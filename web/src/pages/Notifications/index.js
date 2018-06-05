@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import * as lib from '../../lib'
-import Loading from '../../components/Loading'
+//import * as lib from '../../lib'
+//import Loading from '../../components/Loading'
 import Notification from '../../components/Notification'
 
 import './style.css'
