@@ -33,9 +33,11 @@
 		align-items: center;
 	}
 
-	.create.entry .imgwrap img {
+	.create.entry .imgwrap .img {
 		height: 100px;
 		width: 100px;
+		background-position: center;
+		background-size: cover;
 	}
 	.create.entry .imgwrap input {
 		width: 100%;

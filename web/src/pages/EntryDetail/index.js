@@ -131,7 +131,7 @@ export default class EntryDetail extends Component {
 
 			<div className="entry-detail">
 				<div className="top">
-					<img src={entry.imgurl} alt="" />
+					<div className="img" style={{backgroundImage: `url(${entry.imgurl})`}} />
 					<div className="title">{entry.title}</div>
 				</div>
 				<div className="date">{new Date(entry.timestamp * 1000).toLocaleDateString()}</div>

@@ -12,9 +12,11 @@
 	overflow-x: hidden;
 }
 
-	.entry-detail img {
-		height: 80px;
-		width: 80px;
+	.entry-detail .img {
+		height: 120px;
+		width: 120px;
+		background-size: cover;
+		background-position: center;
 
 	}
 

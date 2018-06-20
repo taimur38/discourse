@@ -36,7 +36,7 @@ export default class CreateEntry extends React.Component {
 			<div className="middle">
 				<input type="text" className="title" value={entry.title} onChange={this.handleChange.bind(this, "title")} />
 				<div className="imgwrap">
-					<img src={entry.imgurl} alt="" />
+					<div className="img" style={{backgroundImage: `url(${entry.imgurl})`}} />
 					<input type="text" className="" value={entry.imgurl} onChange={this.handleChange.bind(this, "imgurl")} />
 				</div>
 				<div className="sources">
