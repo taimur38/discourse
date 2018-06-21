@@ -15,7 +15,8 @@
 	.entry-detail .img {
 		height: 120px;
 		width: 120px;
-		background-size: cover;
+		background-size: contain;
+		background-repeat: no-repeat;
 		background-position: center;
 
 	}
