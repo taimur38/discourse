@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { UserLink, post } from '../../lib'
+import { UserLink, post, current_user } from '../../lib'
 import Notifications from '../../pages/Notifications'
 
 import Modal from '../Modal'
@@ -53,7 +53,9 @@ export default class Header extends React.Component {
 	}
 
 	componentDidMount() {
-		this.fetchNotifications();
+		if(current_user()) {
+			this.fetchNotifications();
+		}
 	}
 
 	render() {

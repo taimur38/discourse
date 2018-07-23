@@ -10,8 +10,6 @@ defmodule Discourse.Email do
 		|> Discourse.Email.Mailer.deliver
 	end
 
-
-
 end
 
 defmodule Discourse.Email.Mailer do
