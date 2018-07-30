@@ -16,6 +16,7 @@ export default (props) => (
 	<BrowserRouter>
 		<Switch>
 			<Route exact path="/" component={Home} />
+			<Route exact path="/home" component={Home} />
 			<Route path="/verify" component={Verify} />
 			<Route path="/timeline/:id/edit" component={EditTimeline} />
 			<Route path="/timeline/:timeline_id/entry/:entry_id" component={EntryDetail} />
